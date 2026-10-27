@@ -1,0 +1,214 @@
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "../../supabase";
+
+type Integrante = {
+  id: string;
+  nombre: string;
+  cargo: string;
+  descripcion: string | null;
+  foto_url: string | null;
+  cv_url: string | null;
+  orden: number;
+};
+
+export default function AdministrarStaff() {
+  const router = useRouter();
+  const [integrantes, setIntegrantes] = useState<Integrante[]>([]);
+  const [nombre, setNombre] = useState("");
+  const [cargo, setCargo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [orden, setOrden] = useState("0");
+  const [cargando, setCargando] = useState(true);
+  const [guardando, setGuardando] = useState(false);
+  const [mensaje, setMensaje] = useState("");
+
+  useEffect(() => {
+    async function iniciar() {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error || !data.session) {
+        router.replace("/admin/login");
+        return;
+      }
+
+      await cargarIntegrantes();
+      setCargando(false);
+    }
+
+    iniciar();
+  }, [router]);
+
+  async function cargarIntegrantes() {
+    const { data, error } = await supabase
+      .from("staff_train_football")
+      .select("id, nombre, cargo, descripcion, foto_url, cv_url, orden")
+      .order("orden", { ascending: true })
+      .order("nombre", { ascending: true });
+
+    if (error) {
+      setMensaje("Error al cargar: " + error.message);
+      return;
+    }
+
+    setIntegrantes(data ?? []);
+  }
+
+  async function agregarIntegrante(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setGuardando(true);
+    setMensaje("");
+
+    const { data: sesion } = await supabase.auth.getSession();
+
+    const { error } = await supabase
+      .from("staff_train_football")
+      .insert({
+        nombre: nombre.trim(),
+        cargo: cargo.trim(),
+        descripcion: descripcion.trim() || null,
+        orden: Number(orden) || 0,
+        activo: true,
+        creado_por: sesion.session?.user.id,
+      });
+
+    if (error) {
+      setMensaje("No se pudo guardar: " + error.message);
+    } else {
+      setNombre("");
+      setCargo("");
+      setDescripcion("");
+      setOrden("0");
+      setMensaje("Integrante agregado correctamente.");
+      await cargarIntegrantes();
+    }
+
+    setGuardando(false);
+  }
+
+  async function eliminarIntegrante(id: string) {
+    if (!confirm("¿Querés eliminar este integrante?")) return;
+
+    const { error } = await supabase
+      .from("staff_train_football")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      setMensaje("No se pudo eliminar: " + error.message);
+    } else {
+      setMensaje("Integrante eliminado.");
+      await cargarIntegrantes();
+    }
+  }
+
+  async function cerrarSesion() {
+    await supabase.auth.signOut();
+    router.replace("/admin/login");
+  }
+
+  const campo: React.CSSProperties = {
+    width: "100%",
+    padding: 12,
+    border: "1px solid #cbd5e1",
+    borderRadius: 8,
+    marginTop: 6,
+    boxSizing: "border-box",
+  };
+
+  if (cargando) {
+    return <main style={{ padding: 30 }}>Verificando sesión...</main>;
+  }
+
+  return (
+    <main style={{
+      minHeight: "100vh",
+      background: "#f4f7fb",
+      color: "#14243a",
+      padding: "35px 20px",
+      fontFamily: "Arial, sans-serif",
+    }}>
+      <div style={{ maxWidth: 900, margin: "0 auto" }}>
+        <p style={{ color: "#008c70", fontWeight: 800 }}>TRAIN FOOTBALL</p>
+        <h1>Administrar equipo</h1>
+        <p>Gestioná los integrantes que aparecen en “Quiénes somos”.</p>
+
+        <button onClick={() => router.push("/admin")} style={{ padding: 10, marginRight: 10 }}>
+          Volver al panel
+        </button>
+        <button onClick={cerrarSesion} style={{ padding: 10 }}>
+          Cerrar sesión
+        </button>
+
+        <form onSubmit={agregarIntegrante} style={{
+          background: "white",
+          padding: 24,
+          borderRadius: 14,
+          marginTop: 25,
+          display: "grid",
+          gap: 16,
+        }}>
+          <h2>Agregar integrante</h2>
+
+          <label>
+            Nombre completo
+            <input required value={nombre} onChange={e => setNombre(e.target.value)} style={campo} />
+          </label>
+
+          <label>
+            Cargo o función
+            <input required value={cargo} onChange={e => setCargo(e.target.value)} style={campo} />
+          </label>
+
+          <label>
+            Descripción
+            <textarea value={descripcion} onChange={e => setDescripcion(e.target.value)} style={campo} rows={4} />
+          </label>
+
+          <label>
+            Orden de aparición
+            <input type="number" value={orden} onChange={e => setOrden(e.target.value)} style={campo} />
+          </label>
+
+          <button type="submit" disabled={guardando} style={{
+            background: "#008c70",
+            color: "white",
+            border: 0,
+            borderRadius: 8,
+            padding: 14,
+            cursor: "pointer",
+          }}>
+            {guardando ? "Guardando..." : "Guardar integrante"}
+          </button>
+
+          {mensaje && <p role="status">{mensaje}</p>}
+        </form>
+
+        <section style={{ marginTop: 30 }}>
+          <h2>Integrantes cargados ({integrantes.length})</h2>
+
+          {integrantes.map(persona => (
+            <article key={persona.id} style={{
+              background: "white",
+              padding: 18,
+              borderRadius: 10,
+              marginBottom: 12,
+            }}>
+              <strong>{persona.nombre}</strong>
+              <p>{persona.cargo}</p>
+              {persona.descripcion && <p>{persona.descripcion}</p>}
+              <button onClick={() => eliminarIntegrante(persona.id)}>
+                Eliminar
+              </button>
+            </article>
+          ))}
+
+          {integrantes.length === 0 && <p>Todavía no hay integrantes cargados.</p>}
+        </section>
+      </div>
+    </main>
+  );
+}
