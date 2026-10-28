@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../supabase";
+import { supabase } from "../../supabase";
 
 type Material = {
   id: string;
