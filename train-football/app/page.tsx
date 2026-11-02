@@ -176,30 +176,119 @@ export default function Home() {
       </section>
 
       <section id="staff" className="bg-[#10182a] py-20">
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Las personas detrás del proyecto</p>
-          <h2 className="mt-3 text-4xl font-black md:text-5xl">Equipo TRAIN</h2> <a
-  href="/staff"
-  className="mt-6 inline-flex rounded-full bg-amber-300 px-6 py-3 font-bold text-[#080d1b] transition hover:bg-amber-200"
->
-  Conocé al equipo →
-</a>
-          <p className="mt-4 max-w-2xl leading-7 text-gray-400">
-            Conocé a las personas que forman parte de TRAIN Football. Los cargos y especialidades se agregarán cuando estén confirmados.
-          </p>
-          <img src={`${base}STAFF%202026.png`} alt="Staff TRAIN Football 2026" className="mx-auto my-10 max-h-[560px] w-full object-contain" />
-          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
-            {staff.map((persona) => (
-              <article key={persona.foto} className="group">
-                <div className="overflow-hidden bg-[#080d1b]">
-                  <img src={`${base}${encodeURIComponent(persona.foto)}`} alt={`Fotografía de ${persona.nombre}`} loading="lazy" className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
-                </div>
-                <h3 className="mt-3 text-lg font-bold">{persona.nombre}</h3>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+  <div className="mx-auto max-w-7xl px-6 md:px-12">
+    <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">
+      Las personas detrás del proyecto
+    </p>
+
+    <h2 className="mt-3 text-4xl font-black md:text-5xl">
+      Staff TRAIN Football
+    </h2>
+
+    <p className="mt-4 max-w-2xl leading-7 text-gray-400">
+      Un equipo comprometido con la formación, el desarrollo y la evolución
+      del fútbol.
+    </p>
+
+    {/* FUNDADORES */}
+    <div className="mt-12">
+      <h3 className="text-2xl font-black text-amber-300 md:text-3xl">
+        Fundadores y creadores
+      </h3>
+
+      <p className="mt-2 text-gray-400">
+        Quienes dieron origen e impulsan el proyecto TRAIN Football.
+      </p>
+
+      <div className="mt-7 grid gap-6 sm:grid-cols-2">
+        {[
+          { nombre: "Sebastián López" },
+          { nombre: "Fernando López" },
+        ].map((persona) => (
+          <article
+            key={persona.nombre}
+            className="rounded-2xl border border-amber-300/40 bg-[#080d1b] p-8 text-center shadow-lg"
+          >
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-2 border-amber-300 bg-[#10182a] text-3xl font-black text-amber-300">
+              {persona.nombre.split(" ").map((parte) => parte[0]).join("")}
+            </div>
+
+            <h4 className="mt-5 text-xl font-bold">{persona.nombre}</h4>
+
+            <p className="mt-2 text-sm font-semibold uppercase tracking-wider text-amber-200">
+              Fundador y creador
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    {/* STAFF PERMANENTE */}
+    <div className="mt-16">
+      <h3 className="text-2xl font-black md:text-3xl">
+        Staff permanente
+      </h3>
+
+      <div className="mt-7 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+        {[
+          {
+            nombre: "Ariel",
+            especialidad: "Área de fútbol femenino",
+            foto: "Ariel 1.jpg",
+          },
+          {
+            nombre: "Lucas",
+            especialidad: "Staff TRAIN Football",
+            foto: "Lucas O.jpg",
+          },
+          {
+            nombre: "Juan José",
+            especialidad: "Staff TRAIN Football",
+            foto: "Jose Luis 2.jpg",
+          },
+          {
+            nombre: "Mariano",
+            especialidad: "Área de fútbol infantojuvenil",
+            foto: "",
+          },
+        ].map((persona) => (
+          <article
+            key={persona.nombre}
+            className="rounded-2xl border border-white/10 bg-[#080d1b] p-4 text-center transition hover:border-violet-400/60"
+          >
+            {persona.foto ? (
+              <img
+                src={`${base}${encodeURIComponent(persona.foto)}`}
+                alt={`Fotografía de ${persona.nombre}`}
+                loading="lazy"
+                className="mx-auto aspect-square w-full max-w-48 rounded-full border-2 border-violet-400/60 object-cover"
+              />
+            ) : (
+              <div className="mx-auto flex aspect-square w-full max-w-48 items-center justify-center rounded-full border-2 border-violet-400/60 bg-[#10182a] text-4xl font-black text-violet-300">
+                M
+              </div>
+            )}
+
+            <h4 className="mt-4 text-lg font-bold">{persona.nombre}</h4>
+
+            <p className="mt-2 text-sm leading-6 text-gray-400">
+              {persona.especialidad}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div className="mt-10 text-center">
+      <a
+        href="/staff"
+        className="inline-flex rounded-full bg-amber-300 px-6 py-3 font-bold text-[#080d1b] transition hover:bg-amber-200"
+      >
+        Conocé más sobre nuestro equipo →
+      </a>
+    </div>
+  </div>
+</section>
 
       <section id="campus" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
