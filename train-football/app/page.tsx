@@ -178,7 +178,10 @@ return (
       </section>
 
       <section id="jornada" className="border-y border-white/10 bg-[#10182a] py-20"><div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-[1fr_0.8fr] md:items-center md:px-12">
-        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación para entrenadores</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Jornada teórico-práctica</h2><p className="mt-5 text-lg leading-8 text-gray-300">Un espacio de capacitación para profundizar en la metodología de entrenamiento, el modelo de juego y la preparación del futbolista.</p><p className="mt-6 font-bold text-amber-300">11 de diciembre de 2026 · Bahía Blanca</p><a href="https://wa.link/qb0ao7" className="mt-7 inline-flex rounded-full border border-white/30 px-6 py-3 font-bold hover:bg-white/10">Consultar por la jornada</a></div>
+        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación para entrenadores</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Jornada teórico-práctica</h2><p className="mt-5 text-lg leading-8 text-gray-300">Un espacio de capacitación para profundizar en la metodología de entrenamiento, el modelo de juego y la preparación del futbolista.</p><p className="mt-6 font-bold text-amber-300">11 de diciembre de 2026 · Bahía Blanca</p><a href="https://wa.link/qb0ao7" className="mt-7 inline-flex rounded-full border border-white/30 px-6 py-3 font-bold hover:bg-white/10">Consultar por la jornada</a>
+          <a href="/capacitacion" className="mt-4 inline-flex rounded-full bg-amber-400 px-8 py-4 font-black text-[#080d1b] transition hover:bg-amber-300">
+            INSCRIBIRME A LA CAPACITACIÓN
+          </a></div>
         <img src="/images/05-capacitacion-circular.png" alt="Capacitaciones Train Footbal" className="mx-auto h-64 w-64 rounded-full object-contain" loading="lazy" />
       </div></section>
 
