@@ -23,6 +23,7 @@ const cursos = [
   "Principios tácticos del fútbol",
   "Entrenamiento de fútbol competitivo",
   "Preparación física contextualizada al fútbol",
+  "La preparación integral del futbolista",
   "Otros cursos y capacitaciones",
 ];
 

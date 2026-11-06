@@ -11,6 +11,7 @@ const cursos = [
   { nombre: "Principios tácticos del fútbol", url: "https://capacitacionescads.com/cursos/principios-tacticos-futbol" },
   { nombre: "Entrenamiento de fútbol competitivo", url: "https://capacitacionescads.com/cursos/entrenamiento-futbol-competitivo-organizacion" },
   { nombre: "Preparación física contextualizada al fútbol", url: "https://capacitacionescads.com/cursos/la-preparacion-fisica-contextualizada-al-futbol" },
+  { nombre: "La preparación integral del futbolista", url: "https://capacitacionescads.com/cursos/futbol-entrenamiento-seminario-fisico-tecnica-tactica" },
 ];
 
 const fundadores = [
