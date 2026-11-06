@@ -194,6 +194,22 @@ return (
 
       <footer id="contacto" className="border-t border-white/10 bg-[#050914]"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-6 py-12 md:flex-row md:items-center md:px-12"><div><img src="/images/02-logo-blanco-circular.png" alt="Train Footbal" className="h-14 w-14 rounded-full object-contain" /><p className="mt-4 text-sm text-gray-400">Formación, capacitación y desarrollo futbolístico.</p><p className="mt-2 text-xs text-gray-500">Diez años · 2016—2026</p></div><div className="flex flex-wrap gap-6 text-sm text-gray-300"><a href="https://www.instagram.com/train_football/" target="_blank" rel="noreferrer">Instagram</a><a href="https://youtube.com/@trainfootball7580" target="_blank" rel="noreferrer">YouTube</a><a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer">WhatsApp</a></div></div><p className="border-t border-white/10 px-6 py-5 text-center text-xs text-gray-500">© 2026 Train Footbal. Todos los derechos reservados.</p></footer>
       <a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer" aria-label="Contactar a Train Footbal por WhatsApp" className="fixed bottom-5 right-5 z-50 rounded-full bg-green-500 px-5 py-4 font-bold text-white shadow-lg hover:bg-green-400">WhatsApp ↗</a>
+
+      <section id="inscripcion-capacitacion" className="bg-[#10182a] px-6 py-14 text-center">
+        <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">
+          Formación profesional
+        </p>
+        <h2 className="mt-3 text-3xl font-black md:text-4xl">
+          Capacitate con Train Footbal
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-gray-300">
+          Inscribite a nuestras propuestas de capacitación y seguí creciendo en el fútbol.
+        </p>
+        <a href="/capacitacion"
+          className="mt-7 inline-flex rounded-full bg-amber-400 px-8 py-4 font-black text-[#080d1b] transition hover:bg-amber-300">
+          CAPACITACIÓN · INSCRIBIRME
+        </a>
+      </section>
     </main>
   );
 }
