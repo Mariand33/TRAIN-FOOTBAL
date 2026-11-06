@@ -93,6 +93,7 @@ return (
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
           <a href="#inicio" aria-label="Train Footbal, inicio"><img src="/images/02-logo-blanco-circular.png" alt="Train Footbal" className="h-14 w-14 rounded-full object-contain" /></a>
           <nav className="hidden flex-wrap items-center gap-5 text-sm text-gray-300 lg:flex">
+            <a href="/capacitacion" className="rounded-full bg-amber-400 px-4 py-2 font-bold text-[#080d1b] hover:bg-amber-300">Inscripción capacitación</a>
             <a href="#nosotros" className="hover:text-amber-300">Nosotros</a>
             <a href="#staff" className="hover:text-amber-300">Staff</a>
             <a href="#campus" className="hover:text-amber-300">Campus</a>
