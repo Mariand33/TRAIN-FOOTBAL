@@ -206,7 +206,7 @@ return (
           {[0, 1].map((grupo) => (
             <div key={grupo} className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={grupo === 1}>
               {sponsorsDB.map((sponsor) => (
-                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#080d1b] px-5 py-3 transition duration-300 hover:border-amber-300/60 hover:bg-[#151f35] sm:w-52">
+                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white p-0 transition duration-300 hover:border-amber-300/60 sm:w-52">
                   {sponsor.logo_url && (
                     <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
                   )}
