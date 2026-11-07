@@ -193,9 +193,50 @@ return (
 
       <section className="bg-[#080d1b] py-16"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Nuestro trabajo</p><h2 className="mt-3 text-3xl font-black md:text-4xl">El fútbol, en el campo</h2><p className="mt-4 max-w-lg text-gray-400">Entrenamientos y experiencias de formación de Train Footbal.</p><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{entrenamientos.map((foto,i)=><img key={foto} src={`${base}${encodeURIComponent(foto)}`} alt={`Actividad de entrenamiento Train Footbal ${i+1}`} loading="lazy" className={`w-full object-cover ${i===0?"aspect-[4/5] sm:row-span-2 sm:h-full":"aspect-[4/3]"}`} />)}</div></div></section>
 
-      <section aria-label="Auspiciantes de Train Footbal" className="border-y border-white/10 bg-[#10182a] py-14"><div className="mx-auto max-w-7xl px-5 md:px-10"><div className="text-center"><p className="text-xs font-black uppercase tracking-[0.32em] text-amber-300">NOS ACOMPAÑAN</p><p className="mt-3 text-sm text-gray-400">Gracias a quienes acompañan y hacen posible el crecimiento de Train Footbal.</p></div><div className="mt-9 grid grid-cols-2 items-center gap-3 sm:grid-cols-3 lg:grid-cols-5">{sponsorsDB.map(sponsor=><div key={sponsor.id} className="flex h-24 items-center justify-center rounded-xl border border-white/10 bg-[#080d1b] px-4 py-3 transition hover:border-amber-300/40">{sponsor.logo_url && <img src={sponsor.logo_url} alt={sponsor.nombre} loading="lazy" className="h-full w-full object-contain" />}</div>)}</div></div></section>
+      <section aria-label="Auspiciantes de Train Footbal" className="border-y border-white/10 bg-[#10182a] py-14">
+  <div className="mx-auto max-w-7xl px-5 md:px-10">
+    <div className="text-center">
+      <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-300">NOS ACOMPAÑAN</p>
+      <p className="mt-3 text-sm text-gray-400">Gracias a quienes acompañan y hacen posible el crecimiento de Train Footbal.</p>
+    </div>
 
-      <footer id="contacto" className="border-t border-white/10 bg-[#050914]"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-6 py-12 md:flex-row md:items-center md:px-12"><div><img src="/images/02-logo-blanco-circular.png" alt="Train Footbal" className="h-14 w-14 rounded-full object-contain" /><p className="mt-4 text-sm text-gray-400">Formación, capacitación y desarrollo futbolístico.</p><p className="mt-2 text-xs text-gray-500">Diez años · 2016—2026</p></div><div className="flex flex-wrap gap-6 text-sm text-gray-300"><a href="https://www.instagram.com/train_football/" target="_blank" rel="noreferrer">Instagram</a><a href="https://youtube.com/@trainfootball7580" target="_blank" rel="noreferrer">YouTube</a><a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer">WhatsApp</a></div></div><p className="border-t border-white/10 px-6 py-5 text-center text-xs text-gray-500">© 2026 Train Footbal. Todos los derechos reservados.</p></footer>
+    {sponsorsDB.length > 0 && (
+      <div className="relative mt-10 overflow-hidden">
+        <div className="sponsors-track flex w-max">
+          {[0, 1].map((grupo) => (
+            <div key={grupo} className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={grupo === 1}>
+              {sponsorsDB.map((sponsor) => (
+                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#080d1b] px-5 py-3 transition duration-300 hover:border-amber-300/60 hover:bg-[#151f35] sm:w-52">
+                  {sponsor.logo_url && (
+                    <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <style jsx>{`
+    .sponsors-track {
+      animation: sponsors-scroll 38s linear infinite;
+    }
+    .sponsors-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes sponsors-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sponsors-track { animation: none; }
+    }
+  `}</style>
+</section>
+
+<footer id="contacto" className="border-t border-white/10 bg-[#050914]"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 px-6 py-12 md:flex-row md:items-center md:px-12"><div><img src="/images/02-logo-blanco-circular.png" alt="Train Footbal" className="h-14 w-14 rounded-full object-contain" /><p className="mt-4 text-sm text-gray-400">Formación, capacitación y desarrollo futbolístico.</p><p className="mt-2 text-xs text-gray-500">Diez años · 2016—2026</p></div><div className="flex flex-wrap gap-6 text-sm text-gray-300"><a href="https://www.instagram.com/train_football/" target="_blank" rel="noreferrer">Instagram</a><a href="https://youtube.com/@trainfootball7580" target="_blank" rel="noreferrer">YouTube</a><a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer">WhatsApp</a></div></div><p className="border-t border-white/10 px-6 py-5 text-center text-xs text-gray-500">© 2026 Train Footbal. Todos los derechos reservados.</p></footer>
       <a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer" aria-label="Contactar a Train Footbal por WhatsApp" className="fixed bottom-5 right-5 z-50 rounded-full bg-green-500 px-5 py-4 font-bold text-white shadow-lg hover:bg-green-400">WhatsApp ↗</a>
 
       <section id="inscripcion-capacitacion" className="bg-[#10182a] px-6 py-14 text-center">
