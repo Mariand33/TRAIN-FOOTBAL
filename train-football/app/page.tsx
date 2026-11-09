@@ -185,7 +185,40 @@ return (
         <img src="/images/05-capacitacion-circular.png" alt="Capacitaciones Train Footbal" className="mx-auto h-64 w-64 rounded-full object-contain" loading="lazy" />
       </div></section>
 
-      <section id="cursos" className="mx-auto max-w-7xl px-6 py-20 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Cursos y webinars CADS</h2><p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el curso y accedé a su página oficial.</p>
+
+      <section id="curso-gratuito" className="border-y border-emerald-400/30 bg-gradient-to-br from-[#102b29] to-[#080d1b] px-6 py-16 md:px-12">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.3fr_0.7fr] md:items-center">
+          <div>
+            <span className="inline-flex rounded-full bg-emerald-400 px-5 py-2 text-sm font-black uppercase tracking-wider text-[#06251e]">
+              100% GRATUITO
+            </span>
+            <p className="mt-6 text-sm font-bold uppercase tracking-[0.25em] text-emerald-300">
+              OPORTUNIDAD DE FORMACIÓN · CADS
+            </p>
+            <h2 className="mt-3 text-3xl font-black leading-tight text-white md:text-5xl">
+              Fútbol femenino: entrenamiento y estadística
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-gray-300">
+              Una propuesta de capacitación gratuita para seguir aprendiendo y creciendo en el fútbol.
+            </p>
+            <a
+              href="https://capacitacionescads.com/cursos/futbol-femenino-gratuito-entrenamiento-estadistica"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex rounded-full bg-emerald-400 px-8 py-4 font-black text-[#06251e] transition hover:bg-emerald-300"
+            >
+              ACCEDER AL CURSO GRATUITO ↗
+            </a>
+          </div>
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-emerald-300/30 bg-white/5 p-8 text-center">
+            <span className="text-6xl font-black text-emerald-300">0$</span>
+            <p className="mt-3 text-xl font-black text-white">Inscripción gratuita</p>
+            <p className="mt-2 text-sm text-gray-300">Formación online · CADS Capacitaciones</p>
+          </div>
+        </div>
+      </section>
+
+<section id="cursos" className="mx-auto max-w-7xl px-6 py-20 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Cursos y webinars CADS</h2><p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el curso y accedé a su página oficial.</p>
         <div className="mt-10 divide-y divide-white/10 border-y border-white/10">{cursos.map((curso,i)=><a key={curso.url} href={curso.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-5 py-6 hover:text-violet-300"><div className="flex items-center gap-5"><span className="text-sm text-gray-500">0{i+1}</span><h3 className="text-lg font-semibold md:text-xl">{curso.nombre}</h3></div><span className="text-2xl transition group-hover:translate-x-1">↗</span></a>)}</div>
       </section>
 
