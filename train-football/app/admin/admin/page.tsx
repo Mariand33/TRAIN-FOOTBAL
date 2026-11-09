@@ -213,6 +213,21 @@ export default function AdminPage() {
         <div>
           <p style={{ color: "#087f5b", fontWeight: 800 }}>TRAIN FOOTBALL</p>
           <h1 style={{ fontSize: 30, fontWeight: 800 }}>Panel de administración</h1>
+          <a
+            href="/admin/animaciones"
+            style={{
+              display: "inline-block",
+              marginTop: 12,
+              padding: "10px 16px",
+              borderRadius: 8,
+              background: "#087f5b",
+              color: "white",
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            Gestionar animaciones →
+          </a>
           <p>Sesión iniciada: {email}</p>
         </div>
         <button onClick={handleLogout} style={{

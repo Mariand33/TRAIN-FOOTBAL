@@ -99,6 +99,7 @@ return (
             <a href="#campus" className="hover:text-amber-300">Campus</a>
             <a href="#jornada" className="hover:text-amber-300">Capacitaciones</a>
             <a href="#cursos" className="hover:text-amber-300">Cursos</a>
+            <a href="/animaciones" className="hover:text-amber-300">Animaciones</a>
             <a href="#novedades" className="hover:text-amber-300">Novedades</a>
             <a href="#contacto" className="hover:text-amber-300">Contacto</a>
           </nav>
