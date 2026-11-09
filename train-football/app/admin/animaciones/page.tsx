@@ -48,6 +48,8 @@ export default function AdminAnimacionesPage() {
   const [descripcion, setDescripcion] = useState("");
   const [tipo, setTipo] = useState("video");
   const [mediaUrl, setMediaUrl] = useState("");
+  const [archivoMedia, setArchivoMedia] = useState<File | null>(null);
+  const [subiendo, setSubiendo] = useState(false);
   const [miniaturaUrl, setMiniaturaUrl] = useState("");
   const [orden, setOrden] = useState("0");
   const [activo, setActivo] = useState(true);
@@ -160,6 +162,7 @@ export default function AdminAnimacionesPage() {
     setDescripcion("");
     setTipo("video");
     setMediaUrl("");
+    setArchivoMedia(null);
     setMiniaturaUrl("");
     setOrden("0");
     setActivo(true);
@@ -168,30 +171,87 @@ export default function AdminAnimacionesPage() {
   async function guardarAnimacion(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setMensaje("");
+    setSubiendo(true);
 
-    const datos = {
-      categoria_id: categoriaId || null,
-      titulo: titulo.trim(),
-      descripcion: descripcion.trim() || null,
-      tipo,
-      media_url: mediaUrl.trim() || null,
-      miniatura_url: miniaturaUrl.trim() || null,
-      orden: Number(orden) || 0,
-      activo,
-    };
+    try {
+      let urlFinal = mediaUrl.trim() || null;
+      let tipoFinal = tipo;
 
-    const resultado = animacionEditando
-      ? await supabase.from("animaciones").update(datos).eq("id", animacionEditando)
-      : await supabase.from("animaciones").insert(datos);
+      if (archivoMedia) {
+        const tiposPermitidos = [
+          "image/jpeg", "image/png", "image/webp", "image/gif",
+          "video/mp4", "video/webm", "video/quicktime"
+        ];
 
-    if (resultado.error) {
-      setMensaje("No se pudo guardar el contenido: " + resultado.error.message);
-      return;
+        if (!tiposPermitidos.includes(archivoMedia.type)) {
+          setMensaje("Formato no permitido. Seleccioná JPG, PNG, WEBP, GIF, MP4, WEBM o MOV.");
+          return;
+        }
+
+        if (archivoMedia.size > 100 * 1024 * 1024) {
+          setMensaje("El archivo supera el límite de 100 MB.");
+          return;
+        }
+
+        const nombreSeguro = archivoMedia.name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-zA-Z0-9.-]/g, "-");
+
+        const ruta = `${Date.now()}-${nombreSeguro}`;
+
+        const { error: errorSubida } = await supabase.storage
+          .from("animaciones")
+          .upload(ruta, archivoMedia, {
+            contentType: archivoMedia.type,
+            upsert: false
+          });
+
+        if (errorSubida) {
+          setMensaje("No se pudo subir el archivo: " + errorSubida.message);
+          return;
+        }
+
+        const { data } = supabase.storage
+          .from("animaciones")
+          .getPublicUrl(ruta);
+
+        urlFinal = data.publicUrl;
+        tipoFinal = archivoMedia.type.startsWith("video/")
+          ? "video"
+          : archivoMedia.type === "image/gif"
+            ? "animacion"
+            : "imagen";
+      }
+
+      const datos = {
+        categoria_id: categoriaId || null,
+        titulo: titulo.trim(),
+        descripcion: descripcion.trim() || null,
+        tipo: tipoFinal,
+        media_url: urlFinal,
+        miniatura_url: miniaturaUrl.trim() || null,
+        orden: Number(orden) || 0,
+        activo,
+      };
+
+      const resultado = animacionEditando
+        ? await supabase.from("animaciones").update(datos).eq("id", animacionEditando)
+        : await supabase.from("animaciones").insert(datos);
+
+      if (resultado.error) {
+        setMensaje("No se pudo guardar el contenido: " + resultado.error.message);
+        return;
+      }
+
+      setMensaje("Contenido guardado correctamente.");
+      limpiarAnimacion();
+      await cargarDatos();
+    } catch (error) {
+      setMensaje("Ocurrió un error: " + (error instanceof Error ? error.message : "Error desconocido"));
+    } finally {
+      setSubiendo(false);
     }
-
-    setMensaje("Contenido guardado correctamente.");
-    limpiarAnimacion();
-    await cargarDatos();
   }
 
   function editarAnimacion(item: Animacion) {
@@ -304,14 +364,29 @@ export default function AdminAnimacionesPage() {
               <option value="enlace">Enlace externo</option>
             </select>
             <input className={campo} type="number" placeholder="Orden" value={orden} onChange={e => setOrden(e.target.value)} />
-            <input className={campo} placeholder="URL del video, imagen o recurso" value={mediaUrl} onChange={e => setMediaUrl(e.target.value)} />
+            <div className="md:col-span-2 space-y-2">
+              <label className="block font-semibold">Subir foto, GIF o video desde tu dispositivo</label>
+              <input
+                className={campo}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+                onChange={e => setArchivoMedia(e.target.files?.[0] || null)}
+              />
+              {archivoMedia && (
+                <p className="text-sm text-emerald-700">
+                  Archivo seleccionado: {archivoMedia.name}
+                </p>
+              )}
+              <p className="text-sm text-gray-500">Máximo 100 MB. También podés seguir utilizando una URL.</p>
+            </div>
+            <input className={campo} placeholder="URL del video, imagen o recurso (opcional)" value={mediaUrl} onChange={e => setMediaUrl(e.target.value)} />
             <input className={campo} placeholder="URL de miniatura (opcional)" value={miniaturaUrl} onChange={e => setMiniaturaUrl(e.target.value)} />
             <label className="flex items-center gap-2 md:col-span-2">
               <input type="checkbox" checked={activo} onChange={e => setActivo(e.target.checked)} />
               Mostrar contenido en la sección pública
             </label>
             <div className="flex flex-wrap gap-3 md:col-span-2">
-              <button className={boton} type="submit">{animacionEditando ? "Actualizar contenido" : "Guardar contenido"}</button>
+              <button className={boton} type="submit" disabled={subiendo}>{subiendo ? "Subiendo archivo..." : animacionEditando ? "Actualizar contenido" : "Guardar contenido"}</button>
               {animacionEditando && <button type="button" onClick={limpiarAnimacion} className="rounded-lg border px-5 py-3">Cancelar edición</button>}
             </div>
           </form>
