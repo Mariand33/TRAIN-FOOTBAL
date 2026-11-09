@@ -193,20 +193,45 @@ return (
 
       <section className="bg-[#080d1b] py-16"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Nuestro trabajo</p><h2 className="mt-3 text-3xl font-black md:text-4xl">El fútbol, en el campo</h2><p className="mt-4 max-w-lg text-gray-400">Entrenamientos y experiencias de formación de Train Footbal.</p><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{entrenamientos.map((foto,i)=><img key={foto} src={`${base}${encodeURIComponent(foto)}`} alt={`Actividad de entrenamiento Train Footbal ${i+1}`} loading="lazy" className={`w-full object-cover ${i===0?"aspect-[4/5] sm:row-span-2 sm:h-full":"aspect-[4/3]"}`} />)}</div></div></section>
 
-      <section aria-label="Auspiciantes de Train Footbal" className="border-y border-white/10 bg-[#10182a] py-14">
+      <section id="sponsors" aria-label="Sponsors históricos y auspiciantes de Train Footbal" className="border-y border-white/10 bg-[#10182a] py-16">
   <div className="mx-auto max-w-7xl px-5 md:px-10">
+
     <div className="text-center">
-      <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-300">NOS ACOMPAÑAN</p>
-      <p className="mt-3 text-sm text-gray-400">Gracias a quienes acompañan y hacen posible el crecimiento de Train Footbal.</p>
+      <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-300">2016 — 2026 · UNA HISTORIA COMPARTIDA</p>
+      <h2 className="mt-3 text-3xl font-black md:text-5xl">10 años con nosotros</h2>
+      <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+        Gracias por acompañar, confiar y ser parte del crecimiento de Train Footbal.
+      </p>
     </div>
 
-    {sponsorsDB.length > 0 && (
-      <div className="relative mt-10 overflow-hidden">
+    <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-2">
+      {sponsorsDB.filter(sponsor => [4, 12].includes(Number(sponsor.orden))).map(sponsor => (
+        <article key={sponsor.id} className="flex flex-col items-center rounded-2xl border border-amber-300/50 bg-[#080d1b] p-5 text-center shadow-lg transition duration-300 hover:-translate-y-1 hover:border-amber-300">
+          <div className="flex h-36 w-full items-center justify-center overflow-hidden rounded-xl bg-white p-2">
+            {sponsor.logo_url && (
+              <img src={sponsor.logo_url} alt={sponsor.nombre} className="h-full w-full object-contain" />
+            )}
+          </div>
+          <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-amber-300">Sponsor histórico</p>
+          <h3 className="mt-2 text-xl font-black text-white">{sponsor.nombre}</h3>
+          <p className="mt-2 text-sm font-semibold text-gray-300">10 años acompañando a Train Footbal</p>
+          <span className="mt-4 rounded-full border border-amber-300/40 px-4 py-1 text-xs font-bold text-amber-200">2016 — 2026</span>
+        </article>
+      ))}
+    </div>
+
+    <div className="mt-16 text-center">
+      <p className="text-xs font-black uppercase tracking-[0.32em] text-amber-300">NOS ACOMPAÑAN</p>
+      <p className="mt-3 text-sm text-gray-400">Gracias a todas las empresas y personas que apoyan nuestro proyecto.</p>
+    </div>
+
+    {sponsorsDB.filter(sponsor => ![4, 12].includes(Number(sponsor.orden))).length > 0 && (
+      <div className="relative mt-9 overflow-hidden">
         <div className="sponsors-track flex w-max">
-          {[0, 1].map((grupo) => (
+          {[0, 1].map(grupo => (
             <div key={grupo} className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={grupo === 1}>
-              {sponsorsDB.map((sponsor) => (
-                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white p-0 transition duration-300 hover:border-amber-300/60 sm:w-52">
+              {sponsorsDB.filter(sponsor => ![4, 12].includes(Number(sponsor.orden))).map(sponsor => (
+                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white p-2 transition duration-300 hover:border-amber-300/60 sm:w-52">
                   {sponsor.logo_url && (
                     <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
                   )}
