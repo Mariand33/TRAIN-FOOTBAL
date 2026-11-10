@@ -69,7 +69,7 @@ export default function StaffPage() {
               fontSize: 13,
             }}
           >
-            TRAIN FOOTBALL · EN BUSCA DE LA EXCELENCIA
+            TRAIN Football · EN BUSCA DE LA EXCELENCIA
           </p>
 
           <h1
@@ -79,7 +79,7 @@ export default function StaffPage() {
               margin: "15px 0",
             }}
           >
-            STAFF <span style={{ color: "#e8bd59" }}>TRAIN FOOTBALL</span>
+            STAFF <span style={{ color: "#e8bd59" }}>TRAIN Football</span>
           </h1>
 
           <p
@@ -225,7 +225,7 @@ export default function StaffPage() {
             letterSpacing: 3,
           }}
         >
-          TRAIN FOOTBALL · 10 AÑOS FORMANDO Y CAPACITANDO
+          TRAIN Football · 10 AÑOS FORMANDO Y CAPACITANDO
         </div>
       </section>
     </main>

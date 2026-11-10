@@ -211,7 +211,7 @@ export default function AdminPage() {
         marginBottom: 28,
       }}>
         <div>
-          <p style={{ color: "#087f5b", fontWeight: 800 }}>TRAIN FOOTBALL</p>
+          <p style={{ color: "#087f5b", fontWeight: 800 }}>TRAIN Football</p>
           <h1 style={{ fontSize: 30, fontWeight: 800 }}>Panel de administración</h1>
           <a
             href="/admin/animaciones"

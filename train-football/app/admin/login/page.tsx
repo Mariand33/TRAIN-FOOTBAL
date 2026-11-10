@@ -37,7 +37,7 @@ export default function AdminLogin() {
     <main className="flex min-h-screen items-center justify-center bg-slate-950 px-6 py-12 text-white">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900 p-8 shadow-2xl">
         <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">
-          Train Football
+          TRAIN Football
         </p>
 
         <h1 className="mb-2 text-3xl font-bold">

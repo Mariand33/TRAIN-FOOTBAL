@@ -70,7 +70,7 @@ export default function AnimacionesPage() {
 
         <header className="py-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-amber-400">
-            TRAIN FOOTBALL
+            TRAIN Football
           </p>
 
           <h1 className="text-4xl font-black md:text-6xl">

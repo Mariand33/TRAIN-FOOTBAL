@@ -53,6 +53,7 @@ const novedades = [
 export default function Home() {
  const [integrantes, setIntegrantes] = useState<any[]>([]);
  const [sponsorsDB, setSponsorsDB] = useState<any[]>([]);
+  const [menuAbierto, setMenuAbierto] = useState(false);
 
 useEffect(() => {
   async function cargarIntegrantes() {
@@ -90,22 +91,118 @@ const staffDB = integrantes.filter(p =>
 return (
     <main className="min-h-screen overflow-hidden bg-[#080d1b] text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#080d1b]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
-          <a href="#inicio" aria-label="Train Footbal, inicio"><img src="/images/02-logo-blanco-circular.png" alt="Train Footbal" className="h-14 w-14 rounded-full object-contain" /></a>
-          <nav className="hidden flex-wrap items-center gap-5 text-sm text-gray-300 lg:flex">
-            <a href="/capacitacion" className="rounded-full bg-amber-400 px-4 py-2 font-bold text-[#080d1b] hover:bg-amber-300">Inscripción capacitación</a>
-            <a href="#nosotros" className="hover:text-amber-300">Nosotros</a>
-            <a href="#staff" className="hover:text-amber-300">Staff</a>
-            <a href="#campus" className="hover:text-amber-300">Campus</a>
-            <a href="#jornada" className="hover:text-amber-300">Capacitaciones</a>
-            <a href="#cursos" className="hover:text-amber-300">Cursos</a>
-            <a href="/animaciones" className="hover:text-amber-300">Animaciones</a>
-            <a href="#novedades" className="hover:text-amber-300">Novedades</a>
-            <a href="#contacto" className="hover:text-amber-300">Contacto</a>
-          </nav>
-          <a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer" className="shrink-0 rounded-full bg-violet-600 px-4 py-3 text-sm font-bold hover:bg-violet-500">Contactanos</a>
-        </div>
-      </header>
+  <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3">
+    <a href="#inicio" aria-label="TRAIN Football, inicio">
+      <img src="/images/02-logo-blanco-circular.png" alt="TRAIN Football" className="h-14 w-14 rounded-full object-contain" />
+    </a>
+
+    <nav className="hidden items-center gap-5 text-sm text-gray-300 lg:flex">
+      <a href="/capacitacion" className="rounded-full bg-amber-400 px-4 py-2 font-bold text-[#080d1b]">Inscripción capacitación</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#staff">Staff</a>
+      <a href="#campus">Campus</a>
+      <a href="#jornada">Capacitaciones</a>
+      <a href="#cursos">Cursos</a>
+      <a href="/animaciones">Animaciones</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer"
+      className="hidden rounded-full bg-violet-600 px-4 py-3 text-sm font-bold lg:block">Contactanos</a>
+
+    <button type="button" onClick={() => setMenuAbierto(!menuAbierto)}
+      aria-label={menuAbierto ? "Cerrar menú" : "Abrir menú"}
+      aria-expanded={menuAbierto}
+      className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-lg border border-amber-300/50 text-amber-300 lg:hidden">
+      <span className="h-0.5 w-6 bg-current" />
+      <span className="h-0.5 w-6 bg-current" />
+      <span className="h-0.5 w-6 bg-current" />
+    </button>
+  </div>
+
+  {menuAbierto && (
+    <nav className="border-t border-white/10 bg-[#080d1b] px-6 py-5 lg:hidden">
+      <div className="flex flex-col gap-4 text-sm font-semibold text-white">
+        {[
+          ["Inscripción capacitación", "/capacitacion"],
+          ["Nosotros", "#nosotros"],
+          ["Staff", "#staff"],
+          ["Campus", "#campus"],
+          ["Capacitaciones", "#jornada"],
+          ["Cursos", "#cursos"],
+          ["Animaciones", "/animaciones"],
+          ["Novedades", "#novedades"],
+          ["Contacto", "#contacto"],
+          ["WhatsApp", "https://wa.link/qb0ao7"],
+        ].map(([nombre, enlace]) => (
+          <a key={nombre} href={enlace} onClick={() => setMenuAbierto(false)}
+            className="border-b border-white/10 py-2 hover:text-amber-300">{nombre}</a>
+        ))}
+      </div>
+    </nav>
+  )}
+</header>
+
+<section className="relative isolate overflow-hidden border-b border-amber-300/40 bg-gradient-to-r from-[#102d29] via-[#0b1928] to-[#080d1b]">
+  <style>{`
+    @keyframes ballTravel {
+      0% { transform: translate3d(-12vw, -50%, 0) rotate(0deg); }
+      100% { transform: translate3d(110vw, -50%, 0) rotate(900deg); }
+    }
+    @keyframes lightTravel {
+      0% { transform: translateX(-120%); opacity: 0; }
+      20% { opacity: .7; }
+      80% { opacity: .7; }
+      100% { transform: translateX(120vw); opacity: 0; }
+    }
+    @keyframes softGlow {
+      0%, 100% { opacity: .18; transform: scale(.9); }
+      50% { opacity: .48; transform: scale(1.12); }
+    }
+    .football-ball {
+      animation: ballTravel 12s linear infinite;
+    }
+    .football-light {
+      animation: lightTravel 7s ease-in-out infinite;
+    }
+    .football-glow {
+      animation: softGlow 4s ease-in-out infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .football-ball, .football-light, .football-glow {
+        animation: none !important;
+      }
+    }
+  `}</style>
+
+  <div className="football-glow pointer-events-none absolute -right-16 -top-20 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl" />
+  <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <div className="football-ball absolute left-0 top-[58%] text-5xl opacity-25 drop-shadow-[0_0_18px_rgba(255,255,255,0.45)] md:text-6xl">
+      ⚽
+    </div>
+    <div className="football-light absolute left-0 top-[58%] h-[2px] w-48 bg-gradient-to-r from-transparent via-amber-300 to-transparent blur-[2px]" />
+  </div>
+
+  <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-7 px-6 py-10 text-center md:flex-row md:px-12 md:text-left">
+    <div className="max-w-3xl">
+      <span className="inline-flex rounded-full bg-amber-300 px-4 py-2 text-xs font-black tracking-widest text-[#080d1b] shadow-lg shadow-amber-300/20">
+        DICIEMBRE 2026 · INSCRIPCIONES ABIERTAS
+      </span>
+      <h2 className="mt-4 text-3xl font-black leading-tight md:text-5xl">
+        CAPACITACIONES
+        <span className="block text-amber-300">TRAIN Football</span>
+      </h2>
+      <p className="mt-4 text-base leading-7 text-gray-200 md:text-lg">
+        Formación, actualización y herramientas para entrenadores y profesionales del fútbol.
+      </p>
+    </div>
+    <a href="/capacitacion"
+      className="shrink-0 rounded-full bg-amber-300 px-8 py-5 text-base font-black text-[#080d1b] shadow-lg shadow-amber-300/20 transition duration-300 hover:scale-105 hover:bg-amber-200 hover:shadow-amber-300/40">
+      INSCRIBITE AHORA →
+    </a>
+  </div>
+</section>
 
       <section id="inicio" className="relative isolate overflow-hidden border-b border-amber-300/20 bg-[#080d1b]">
         <img src={`${base}Grupo%20de%20entrenamiento.png`} alt="Entrenamiento de Train Footbal" className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />

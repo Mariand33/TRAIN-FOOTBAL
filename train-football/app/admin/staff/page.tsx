@@ -369,7 +369,7 @@ export default function AdministrarStaff() {
       fontFamily: "Arial, sans-serif",
     }}>
       <div style={{ maxWidth: 950, margin: "0 auto" }}>
-        <p style={{ color: "#008c70", fontWeight: 800 }}>TRAIN FOOTBALL</p>
+        <p style={{ color: "#008c70", fontWeight: 800 }}>TRAIN Football</p>
         <h1>Administrar Staff</h1>
         <p>Gestioná integrantes, fotos, descripciones y CV del equipo.</p>
 

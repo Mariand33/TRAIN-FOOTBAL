@@ -288,7 +288,7 @@ export default function AdminAnimacionesPage() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="font-bold text-amber-400">TRAIN FOOTBALL</p>
+            <p className="font-bold text-amber-400">TRAIN Football</p>
             <h1 className="text-3xl font-black">Gestión de animaciones</h1>
             <p className="mt-1 text-sm text-gray-400">Sesión: {email}</p>
           </div>
