@@ -1,60 +1,51 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "../supabase";
 
-type Material = {
-  id: string;
-  titulo: string;
-  descripcion: string | null;
-  curso: string;
-  tipo: string;
-  archivo_url: string | null;
-  video_url: string | null;
-  creado_por: string | null;
-  created_at: string;
-};
-
-const cursos = [
-  "Modelos de juego en fútbol",
-  "Planificación en fútbol infantil y juvenil",
-  "Principios tácticos del fútbol",
-  "Entrenamiento de fútbol competitivo",
-  "Preparación física contextualizada al fútbol",
-  "La preparación integral del futbolista",
-  "Otros cursos y capacitaciones",
+const modulos = [
+  {
+    titulo: "Auspiciantes",
+    descripcion: "Gestionar empresas, logos e información de patrocinadores.",
+    destino: "/admin/sponsors",
+    icono: "🏆",
+    color: "#d97706",
+  },
+  {
+    titulo: "Equipo y Staff",
+    descripcion: "Administrar integrantes, fotografías y perfiles del equipo.",
+    destino: "/admin/staff",
+    icono: "👥",
+    color: "#2563eb",
+  },
+  {
+    titulo: "Animaciones",
+    descripcion: "Crear categorías y subir videos, GIF e imágenes.",
+    destino: "/admin/animaciones",
+    icono: "🎬",
+    color: "#9333ea",
+  },
+  {
+    titulo: "Materiales de formación",
+    descripcion: "Gestionar documentos, videos y contenidos de los cursos.",
+    destino: "/admin/materiales",
+    icono: "📚",
+    color: "#059669",
+  },
 ];
-
-const inputStyle = {
-  width: "100%",
-  padding: 12,
-  border: "1px solid #cbd5e1",
-  borderRadius: 8,
-  background: "white",
-  color: "#172033",
-};
 
 export default function AdminPage() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
   const [email, setEmail] = useState("");
-  const [materiales, setMateriales] = useState<Material[]>([]);
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [curso, setCurso] = useState(cursos[0]);
-  const [tipo, setTipo] = useState("documento");
-  const [archivoUrl, setArchivoUrl] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
-  const [guardando, setGuardando] = useState(false);
-  const [mensaje, setMensaje] = useState("");
-  const [editandoId, setEditandoId] = useState<string | null>(null);
+  const [cerrando, setCerrando] = useState(false);
 
   useEffect(() => {
     let active = true;
 
-    async function checkSession() {
+    async function verificarSesion() {
       const { data, error } = await supabase.auth.getSession();
 
       if (!active) return;
@@ -66,10 +57,9 @@ export default function AdminPage() {
 
       setEmail(data.session.user.email ?? "");
       setChecking(false);
-      await cargarMateriales();
     }
 
-    checkSession();
+    verificarSesion();
 
     const {
       data: { subscription },
@@ -90,312 +80,94 @@ export default function AdminPage() {
     };
   }, [router]);
 
-  async function cargarMateriales() {
-    const { data, error } = await supabase
-      .from("materiales")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      setMensaje("No se pudieron cargar los materiales: " + error.message);
-      return;
-    }
-
-    setMateriales((data ?? []) as Material[]);
-  }
-
-  function limpiarFormulario() {
-    setTitulo("");
-    setDescripcion("");
-    setCurso(cursos[0]);
-    setTipo("documento");
-    setArchivoUrl("");
-    setVideoUrl("");
-    setEditandoId(null);
-  }
-
-  async function guardarMaterial(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setGuardando(true);
-    setMensaje("");
-
-    const { data: { user }, error: userError } =
-      await supabase.auth.getUser();
-
-    if (userError || !user) {
-      setMensaje("Tu sesión no está disponible. Volvé a iniciar sesión.");
-      setGuardando(false);
-      router.replace("/admin/login");
-      return;
-    }
-
-    const registro = {
-      titulo: titulo.trim(),
-      descripcion: descripcion.trim() || null,
-      curso,
-      tipo,
-      archivo_url: archivoUrl.trim() || null,
-      video_url: videoUrl.trim() || null,
-      creado_por: user.id,
-    };
-
-    const resultado = editandoId
-      ? await supabase
-          .from("materiales")
-          .update(registro)
-          .eq("id", editandoId)
-      : await supabase.from("materiales").insert(registro);
-
-    setGuardando(false);
-
-    if (resultado.error) {
-      setMensaje("No se pudo guardar: " + resultado.error.message);
-      return;
-    }
-
-    setMensaje(editandoId ? "Material actualizado." : "Material guardado correctamente.");
-    limpiarFormulario();
-    await cargarMateriales();
-  }
-
-  function editarMaterial(material: Material) {
-    setEditandoId(material.id);
-    setTitulo(material.titulo);
-    setDescripcion(material.descripcion ?? "");
-    setCurso(material.curso);
-    setTipo(material.tipo);
-    setArchivoUrl(material.archivo_url ?? "");
-    setVideoUrl(material.video_url ?? "");
-    setMensaje("");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  async function eliminarMaterial(id: string) {
-    if (!window.confirm("¿Querés eliminar este material?")) return;
-
-    const { error } = await supabase
-      .from("materiales")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
-      setMensaje("No se pudo eliminar: " + error.message);
-      return;
-    }
-
-    setMensaje("Material eliminado.");
-    await cargarMateriales();
-  }
-
-  async function handleLogout() {
+  async function cerrarSesion() {
+    setCerrando(true);
     await supabase.auth.signOut();
     router.replace("/admin/login");
+    router.refresh();
   }
 
   if (checking) {
-    return <main style={{ padding: 32 }}>Verificando acceso...</main>;
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        Verificando acceso...
+      </main>
+    );
   }
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      padding: 24,
-      background: "#f1f5f9",
-      color: "#172033",
-    }}>
-      <header style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: 16,
-        marginBottom: 28,
-      }}>
-        <div>
-          <p style={{ color: "#087f5b", fontWeight: 800 }}>TRAIN Football</p>
-          <h1 style={{ fontSize: 30, fontWeight: 800 }}>Panel de administración</h1>
-          <p>Sesión iniciada: {email}</p>
-        </div>
-        <button onClick={handleLogout} style={{
-          padding: "10px 16px",
-          borderRadius: 8,
-          background: "#172033",
-          color: "white",
-          cursor: "pointer",
-        }}>
-          Cerrar sesión
-        </button>
-      </header>
-
-      {mensaje && (
-        <p role="status" style={{
-          padding: 12,
-          marginBottom: 20,
-          background: "white",
-          borderRadius: 8,
-          overflowWrap: "anywhere",
-        }}>
-          {mensaje}
-        </p>
-      )}
-
-      <section style={{
-        padding: 24,
-        background: "white",
-        borderRadius: 14,
-        marginBottom: 28,
-        maxWidth: 850,
-      }}>
-        <h2 style={{ fontSize: 23, fontWeight: 800, marginBottom: 18 }}>
-          {editandoId ? "Editar material" : "Cargar nuevo material"}
-        </h2>
-
-        <form onSubmit={guardarMaterial} style={{
-          display: "grid",
-          gap: 14,
-        }}>
-          <label>
-            Título *
-            <input
-              required
-              maxLength={200}
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-              style={inputStyle}
-              placeholder="Ej.: Principios de ataque"
-            />
-          </label>
-
-          <label>
-            Curso *
-            <select
-              required
-              value={curso}
-              onChange={(e) => setCurso(e.target.value)}
-              style={inputStyle}
-            >
-              {cursos.map((nombre) => (
-                <option key={nombre} value={nombre}>{nombre}</option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            Descripción
-            <textarea
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-              style={{ ...inputStyle, minHeight: 100 }}
-              placeholder="Explicá brevemente el contenido."
-            />
-          </label>
-
-          <label>
-            Tipo de material
-            <select
-              value={tipo}
-              onChange={(e) => setTipo(e.target.value)}
-              style={inputStyle}
-            >
-              <option value="documento">Documento o PDF</option>
-              <option value="video">Video</option>
-              <option value="enlace">Enlace externo</option>
-              <option value="presentacion">Presentación</option>
-            </select>
-          </label>
-
-          <label>
-            Enlace al archivo (opcional)
-            <input
-              type="url"
-              value={archivoUrl}
-              onChange={(e) => setArchivoUrl(e.target.value)}
-              style={inputStyle}
-              placeholder="https://..."
-            />
-          </label>
-
-          <label>
-            Enlace al video (opcional)
-            <input
-              type="url"
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              style={inputStyle}
-              placeholder="https://youtube.com/..."
-            />
-          </label>
-
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              type="submit"
-              disabled={guardando}
-              style={{
-                padding: "12px 18px",
-                borderRadius: 8,
-                background: "#087f5b",
-                color: "white",
-                fontWeight: 700,
-                cursor: guardando ? "wait" : "pointer",
-              }}
-            >
-              {guardando ? "Guardando..." : editandoId ? "Guardar cambios" : "Publicar material"}
-            </button>
-
-            {editandoId && (
-              <button
-                type="button"
-                onClick={limpiarFormulario}
-                style={{ padding: 12, borderRadius: 8, cursor: "pointer" }}
-              >
-                Cancelar edición
-              </button>
-            )}
+    <main className="min-h-screen bg-slate-950 px-5 py-8 text-white md:px-10">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-10 flex flex-wrap items-center justify-between gap-5 border-b border-white/10 pb-7">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-emerald-400">
+              TRAIN Football
+            </p>
+            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+              Centro de Administración
+            </h1>
+            <p className="mt-2 text-sm text-slate-400">
+              Gestioná los contenidos y herramientas de la plataforma.
+            </p>
           </div>
-        </form>
-      </section>
 
-      <section>
-        <h2 style={{ fontSize: 23, fontWeight: 800, marginBottom: 16 }}>
-          Materiales cargados ({materiales.length})
-        </h2>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <p className="text-xs text-slate-400">Sesión iniciada</p>
+              <p className="text-sm font-semibold">{email}</p>
+            </div>
+            <button
+              onClick={cerrarSesion}
+              disabled={cerrando}
+              className="rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold transition hover:bg-white/10 disabled:opacity-50"
+            >
+              {cerrando ? "Saliendo..." : "Cerrar sesión"}
+            </button>
+          </div>
+        </header>
 
-        {materiales.length === 0 ? (
-          <p>Todavía no hay materiales guardados.</p>
-        ) : (
-          <div style={{ display: "grid", gap: 14 }}>
-            {materiales.map((material) => (
-              <article key={material.id} style={{
-                padding: 20,
-                background: "white",
-                borderRadius: 12,
-                overflowWrap: "anywhere",
-              }}>
-                <p style={{ color: "#087f5b", fontWeight: 700 }}>{material.curso}</p>
-                <h3 style={{ fontSize: 19, fontWeight: 800 }}>{material.titulo}</h3>
-                {material.descripcion && <p style={{ marginTop: 8 }}>{material.descripcion}</p>}
-                <p style={{ marginTop: 8, color: "#64748b" }}>Tipo: {material.tipo}</p>
+        <section>
+          <div className="mb-6">
+            <h2 className="text-xl font-bold">Herramientas de gestión</h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Seleccioná el módulo al que querés ingresar.
+            </p>
+          </div>
 
-                {material.archivo_url && (
-                  <p><a href={material.archivo_url} target="_blank" rel="noreferrer" style={{ color: "#2563eb" }}>Abrir archivo ↗</a></p>
-                )}
-                {material.video_url && (
-                  <p><a href={material.video_url} target="_blank" rel="noreferrer" style={{ color: "#2563eb" }}>Ver video ↗</a></p>
-                )}
-
-                <div style={{ display: "flex", gap: 10, marginTop: 14 }}>
-                  <button onClick={() => editarMaterial(material)} style={{ padding: 10, borderRadius: 8, cursor: "pointer" }}>
-                    Editar
-                  </button>
-                  <button onClick={() => eliminarMaterial(material.id)} style={{ padding: 10, borderRadius: 8, color: "#b91c1c", cursor: "pointer" }}>
-                    Eliminar
-                  </button>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {modulos.map((modulo) => (
+              <Link
+                key={modulo.destino}
+                href={modulo.destino}
+                className="group rounded-2xl border border-white/10 bg-slate-900 p-6 transition hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-slate-800"
+              >
+                <div
+                  className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl text-3xl"
+                  style={{ backgroundColor: `${modulo.color}25` }}
+                >
+                  {modulo.icono}
                 </div>
-              </article>
+
+                <h3 className="text-xl font-bold group-hover:text-emerald-400">
+                  {modulo.titulo}
+                </h3>
+
+                <p className="mt-2 min-h-12 text-sm leading-6 text-slate-400">
+                  {modulo.descripcion}
+                </p>
+
+                <p className="mt-5 text-sm font-bold text-emerald-400">
+                  INGRESAR AL MÓDULO →
+                </p>
+              </Link>
             ))}
           </div>
-        )}
-      </section>
+        </section>
+
+        <footer className="mt-12 border-t border-white/10 pt-6 text-center text-xs text-slate-500">
+          TRAIN Football · Panel de administración
+        </footer>
+      </div>
     </main>
   );
 }
