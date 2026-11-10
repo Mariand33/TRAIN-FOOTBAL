@@ -316,7 +316,11 @@ return (
         </div>
       </section>
 
-<section id="cursos" className="mx-auto max-w-7xl px-6 py-20 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Webinars de Formación</h2><p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el webinar y accedé a su página oficial. (Modalidad Asincrónica)</p>
+<section id="cursos" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
+        <div className="mb-8 flex justify-center">
+          <img src="/images/logo-cads.jpeg" alt="CADS Capacitaciones" className="h-auto w-36 rounded-xl object-contain md:w-40" />
+        </div>
+        <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Webinars de Formación</h2><p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el webinar y accedé a su página oficial. (Modalidad Asincrónica)</p>
         <div className="mt-10 divide-y divide-white/10 border-y border-white/10">{cursos.map((curso,i)=><a key={curso.url} href={curso.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-5 py-6 hover:text-violet-300"><div className="flex items-center gap-5"><span className="text-sm text-gray-500">0{i+1}</span><h3 className="text-lg font-semibold md:text-xl">{curso.nombre}</h3></div><span className="text-2xl transition group-hover:translate-x-1">↗</span></a>)}</div>
       </section>
 
