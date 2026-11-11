@@ -97,11 +97,11 @@ return (
     </a>
 
     <nav className="hidden items-center gap-5 text-sm text-gray-300 lg:flex">
-      <a href="/capacitacion" className="rounded-full bg-amber-400 px-4 py-2 font-bold text-[#080d1b]">Inscripción capacitación</a>
+      <a href="/capacitacion" className="rounded-full bg-amber-400 px-4 py-2 font-bold text-[#080d1b]">Jornada Presencial</a>
       <a href="#nosotros">Nosotros</a>
       <a href="#staff">Staff</a>
       <a href="#campus">Campus</a>
-      <a href="#jornada">Capacitaciones</a>
+      <a href="#jornada">Jornada Presencial</a>
       <a href="#cursos">Cursos</a>
       <a href="/animaciones">Animaciones</a>
       <a href="#novedades">Novedades</a>
@@ -125,11 +125,11 @@ return (
     <nav className="border-t border-white/10 bg-[#080d1b] px-6 py-5 lg:hidden">
       <div className="flex flex-col gap-4 text-sm font-semibold text-white">
         {[
-          ["Inscripción capacitación", "/capacitacion"],
+          ["Jornada Presencial", "/capacitacion"],
           ["Nosotros", "#nosotros"],
           ["Staff", "#staff"],
           ["Campus", "#campus"],
-          ["Capacitaciones", "#jornada"],
+          ["Jornada Presencial", "#jornada"],
           ["Cursos", "#cursos"],
           ["Animaciones", "/animaciones"],
           ["Novedades", "#novedades"],
@@ -148,7 +148,7 @@ return (
   <style>{`
     @keyframes ballTravel {
       0% { transform: translate3d(-12vw, -50%, 0) rotate(0deg); }
-      100% { transform: translate3d(110vw, -50%, 0) rotate(900deg); }
+      100% { transform: translate3d(66vw, -50%, 0) rotate(900deg); }
     }
     @keyframes lightTravel {
       0% { transform: translateX(-120%); opacity: 0; }
@@ -161,7 +161,7 @@ return (
       50% { opacity: .48; transform: scale(1.12); }
     }
     .football-ball {
-      animation: ballTravel 12s linear infinite;
+      animation: ballTravel 5s ease-in-out infinite alternate;
     }
     .football-light {
       animation: lightTravel 7s ease-in-out infinite;
@@ -177,11 +177,13 @@ return (
   `}</style>
 
   <div className="football-glow pointer-events-none absolute -right-16 -top-20 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl" />
-  <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-    <div className="football-ball absolute left-0 top-[58%] text-5xl opacity-25 drop-shadow-[0_0_18px_rgba(255,255,255,0.45)] md:text-6xl">
-      ⚽
-    </div>
-    <div className="football-light absolute left-0 top-[58%] h-[2px] w-48 bg-gradient-to-r from-transparent via-amber-300 to-transparent blur-[2px]" />
+  <div className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[46%] md:block">
+    <img
+      src="/images/botin-control-transparente.webp"
+      alt=""
+      aria-hidden="true"
+      className="h-full w-full object-contain opacity-100"
+    />
   </div>
 
   <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center justify-between gap-7 px-6 py-10 text-center md:flex-row md:px-12 md:text-left">
@@ -190,16 +192,23 @@ return (
         DICIEMBRE 2026 · INSCRIPCIONES ABIERTAS
       </span>
       <h2 className="mt-4 text-3xl font-black leading-tight md:text-5xl">
-        CAPACITACIONES
+        JORNADA PRESENCIAL
         <span className="block text-amber-300">TRAIN Football</span>
       </h2>
       <p className="mt-4 text-base leading-7 text-gray-200 md:text-lg">
         Formación, actualización y herramientas para entrenadores y profesionales del fútbol.
       </p>
+      <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row md:items-center">
+        <img src="/images/escudo-banco-provincia.png" alt="Club Atlético Banco Provincia" className="h-16 w-16 rounded-lg bg-white p-1.5 object-contain shadow-lg" />
+        <p className="text-sm font-bold leading-6 text-white">
+          Club Atlético Banco Provincia<br />
+          <span className="text-amber-300">Zonal Bahía Blanca</span>
+        </p>
+      </div>
     </div>
     <a href="/capacitacion"
       className="shrink-0 rounded-full bg-amber-300 px-8 py-5 text-base font-black text-[#080d1b] shadow-lg shadow-amber-300/20 transition duration-300 hover:scale-105 hover:bg-amber-200 hover:shadow-amber-300/40">
-      INSCRIBITE AHORA →
+      INSCRIPCIONES ABIERTAS →
     </a>
   </div>
 </section>
@@ -213,7 +222,7 @@ return (
             <p className="mb-5 text-sm font-bold uppercase tracking-[0.3em] text-gray-200">Formación · Capacitación · Metodología</p>
             <h1 className="text-5xl font-black leading-[1.04] tracking-tight md:text-7xl">Una década<br /><span className="text-amber-300">formando fútbol.</span></h1>
             <p className="mt-7 max-w-xl text-lg leading-8 text-gray-200">Diez años de trabajo en la formación futbolística, la capacitación profesional y el desarrollo de una comprensión integral del juego.</p>
-            <div className="mt-9 flex flex-wrap gap-4"><a href="#jornada" className="rounded-full bg-amber-300 px-6 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Capacitaciones</a><a href="#campus" className="rounded-full border border-white/50 px-6 py-4 font-bold hover:bg-white/10">Inscripción al Campus 2026</a></div>
+            <div className="mt-9 flex flex-wrap gap-4"><a href="#jornada" className="rounded-full bg-amber-300 px-6 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Jornada Presencial</a><a href="#campus" className="rounded-full border border-white/50 px-6 py-4 font-bold hover:bg-white/10">Inscripción al Campus 2026</a></div>
           </div>
           <div className="flex flex-col items-center justify-center"><img src={`${base}10%20a%C3%B1os%20transparentes.png`} alt="Diez años de TRAIN Football" className="w-52 object-contain drop-shadow-2xl md:w-64" /><p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.3em] text-amber-200">En búsqueda de la excelencia</p></div>
         </div>
@@ -270,13 +279,26 @@ return (
 
       <section id="campus" className="mx-auto max-w-7xl px-6 py-20 md:px-12"><div className="grid gap-10 md:grid-cols-2 md:items-center">
         <img src="/images/03-campus-2026-circular.png" alt="Campus de tecnificación TRAIN Football 2026" className="mx-auto h-72 w-72 rounded-full object-contain" loading="lazy" />
-        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-300">Experiencia de formación</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Campus de tecnificación 2026</h2><p className="mt-5 text-lg leading-8 text-gray-300">Cuatro jornadas de trabajo intensivo destinadas a jugadores de las categorías 2011, 2012, 2013 y 2014.</p><p className="mt-6 font-bold text-amber-300">7 al 10 de diciembre de 2026</p><p className="mt-1 text-gray-400">Club Atlético Banco Provincia · Bahía Blanca</p><ul className="mt-7 space-y-3 text-gray-300"><li>— Trabajo técnico-táctico</li><li>— Preparación física contextualizada</li><li>— Prevención y nutrición</li><li>— Análisis de video</li></ul><a href="https://docs.google.com/forms/d/e/1FAIpQLSfkzVC-qGFblfWFWS2CqaOGHDdlGvkTyuaQkDGQ8en5OCq7vQ/viewform?pli=1" target="_blank" rel="noreferrer" className="mt-8 inline-flex rounded-full bg-amber-300 px-7 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Inscribirme al campus ↗</a></div>
+        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-300">Experiencia de formación</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Campus de tecnificación 2026</h2><p className="mt-5 text-lg leading-8 text-gray-300">Cuatro jornadas de trabajo intensivo destinadas a jugadores de las categorías 2011, 2012, 2013 y 2014.</p>
+          <div className="mt-8 rounded-2xl border border-white/10 bg-[#10182a] p-6">
+            <h3 className="text-xl font-bold text-white">¿De qué se trata un Campus de Tecnificación?</h3>
+            <p className="mt-4 leading-7 text-gray-300">Es un espacio especialmente diseñado para que los niños desarrollen y mejoren sus habilidades deportivas en el fútbol. Los participantes reciben entrenamiento dirigido por profesionales, enfocado en los aspectos técnicos, tácticos y condicionales, con el juego como primer principio.</p>
+            <p className="mt-4 leading-7 text-gray-300">También se trabajan valores fundamentales para su formación: el trabajo en equipo, la disciplina y la responsabilidad.</p>
+            <p className="mt-4 font-semibold leading-7 text-amber-300">Celebramos 10 años de formación y capacitación con un evento de especial significado.</p>
+          </div><p className="mt-6 font-bold text-amber-300">7 al 10 de diciembre de 2026</p><div className="mt-4 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <img src="/images/escudo-banco-provincia.png" alt="Escudo del Club Atlético Banco Provincia" className="w-32 rounded-xl bg-white p-2 object-contain shadow-lg" />
+          <p className="text-base font-bold leading-7 text-white">Club Atlético Banco Provincia<br />Zonal Bahía Blanca</p>
+        </div><ul className="mt-7 space-y-3 text-gray-300"><li>— Trabajo técnico-táctico</li><li>— Preparación física contextualizada</li><li>— Prevención y nutrición</li><li>— Análisis de video</li></ul><a href="https://docs.google.com/forms/d/e/1FAIpQLSfkzVC-qGFblfWFWS2CqaOGHDdlGvkTyuaQkDGQ8en5OCq7vQ/viewform?pli=1" target="_blank" rel="noreferrer" className="mt-8 inline-flex rounded-full bg-amber-300 px-7 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Inscribirme al campus ↗</a></div>
       </div>
       <div className="mt-14 border-t border-white/10 pt-10"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Equipo a cargo</p><h3 className="mt-3 text-2xl font-black md:text-3xl">Profesionales del Campus</h3><div className="mt-7 grid grid-cols-2 gap-4 md:grid-cols-4">{campusStaff.map(persona=><article key={persona.nombre} className="border-l-2 border-amber-300/70 bg-[#10182a] p-5"><h4 className="font-bold">{persona.nombre}</h4><p className="mt-2 text-sm text-gray-400">{persona.rol}</p></article>)}</div></div>
       </section>
 
       <section id="jornada" className="border-y border-white/10 bg-[#10182a] py-20"><div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-[1fr_0.8fr] md:items-center md:px-12">
-        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación para entrenadores</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Jornada teórico-práctica</h2><p className="mt-5 text-lg leading-8 text-gray-300">Un espacio de capacitación para profundizar en la metodología de entrenamiento, el modelo de juego y la preparación del futbolista.</p><p className="mt-6 font-bold text-amber-300">11 de diciembre de 2026 · Bahía Blanca</p><a href="https://wa.link/qb0ao7" className="mt-7 inline-flex rounded-full border border-white/30 px-6 py-3 font-bold hover:bg-white/10">Consultar por la jornada</a>
+        <div><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación para entrenadores</p><h2 className="mt-4 text-4xl font-black md:text-5xl">Jornada teórico-práctica</h2><p className="mt-5 text-lg leading-8 text-gray-300">Un espacio de capacitación para profundizar en la metodología de entrenamiento, el modelo de juego y la preparación del futbolista.</p><p className="mt-6 font-bold text-amber-300">11 de diciembre de 2026 · Bahía Blanca</p>
+          <div className="mt-4 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <img src="/images/escudo-banco-provincia.png" alt="Escudo del Club Atlético Banco Provincia" className="w-32 rounded-xl bg-white p-2 object-contain shadow-lg" />
+            <p className="text-base font-bold leading-7 text-white">Club Atlético Banco Provincia<br />Zonal Bahía Blanca</p>
+          </div><a href="https://wa.link/qb0ao7" className="mt-7 inline-flex rounded-full border border-white/30 px-6 py-3 font-bold hover:bg-white/10">Consultar por la jornada</a>
           <a href="/capacitacion" className="mt-4 inline-flex rounded-full bg-amber-400 px-8 py-4 font-black text-[#080d1b] transition hover:bg-amber-300">
             INSCRIBIRME A LA CAPACITACIÓN
           </a></div>
