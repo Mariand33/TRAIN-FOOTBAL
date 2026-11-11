@@ -206,6 +206,9 @@ return (
         </p>
       </div>
     </div>
+    <div className="w-full md:hidden">
+      <img src="/images/botin-control-transparente.webp" alt="" aria-hidden="true" className="h-40 w-full object-contain opacity-90" />
+    </div>
     <a href="/capacitacion"
       className="shrink-0 rounded-full bg-amber-300 px-8 py-5 text-base font-black text-[#080d1b] shadow-lg shadow-amber-300/20 transition duration-300 hover:scale-105 hover:bg-amber-200 hover:shadow-amber-300/40">
       INSCRIPCIONES ABIERTAS →
