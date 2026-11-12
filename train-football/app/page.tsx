@@ -160,6 +160,21 @@ return (
       0%, 100% { opacity: .18; transform: scale(.9); }
       50% { opacity: .48; transform: scale(1.12); }
     }
+    @keyframes cinematicZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.09); }
+    }
+    @keyframes contentReveal {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes emblemFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-bg-cinematic { animation: cinematicZoom 24s ease-in-out infinite alternate; }
+    .hero-content-enter { animation: contentReveal 1.2s ease-out both; }
+    .hero-emblem-float { animation: emblemFloat 6s ease-in-out infinite; }
     .football-ball {
       animation: ballTravel 5s ease-in-out infinite alternate;
     }
@@ -170,8 +185,11 @@ return (
       animation: softGlow 4s ease-in-out infinite;
     }
     @media (prefers-reduced-motion: reduce) {
-      .football-ball, .football-light, .football-glow {
+      .football-ball, .football-light, .football-glow,
+      .hero-bg-cinematic, .hero-content-enter, .hero-emblem-float {
         animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
       }
     }
   `}</style>
@@ -217,9 +235,9 @@ return (
 </section>
 
       <section id="inicio" className="relative isolate overflow-hidden border-b border-amber-300/20 bg-[#080d1b]">
-        <img src={`${base}Grupo%20de%20entrenamiento.png`} alt="Entrenamiento de TRAIN Football" className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
+        <img src={`${base}Grupo%20de%20entrenamiento.png`} alt="Entrenamiento de TRAIN Football" className="hero-bg-cinematic absolute inset-0 -z-20 h-full w-full object-cover object-center" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#080d1b] via-[#080d1b]/90 to-[#080d1b]/35" />
-        <div className="mx-auto grid min-h-[650px] max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-[1fr_260px] md:px-12">
+        <div className="hero-content-enter mx-auto grid min-h-[650px] max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-[1fr_260px] md:px-12">
           <div className="max-w-3xl">
             <div className="mb-8 inline-flex items-center gap-3 border-y border-amber-300/40 py-3"><span className="text-amber-300">✦</span><p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-200 md:text-sm">2016 — 2026 · Diez años de trayectoria</p></div>
             <p className="mb-5 text-sm font-bold uppercase tracking-[0.3em] text-gray-200">Formación · Capacitación · Metodología</p>
@@ -227,7 +245,7 @@ return (
             <p className="mt-7 max-w-xl text-lg leading-8 text-gray-200">Diez años de trabajo en la formación futbolística, la capacitación profesional y el desarrollo de una comprensión integral del juego.</p>
             <div className="mt-9 flex flex-wrap gap-4"><a href="#jornada" className="rounded-full bg-amber-300 px-6 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Jornada Presencial</a><a href="#campus" className="rounded-full border border-white/50 px-6 py-4 font-bold hover:bg-white/10">Inscripción al Campus 2026</a></div>
           </div>
-          <div className="flex flex-col items-center justify-center"><img src={`${base}10%20a%C3%B1os%20transparentes.png`} alt="Diez años de TRAIN Football" className="w-52 object-contain drop-shadow-2xl md:w-64" /><p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.3em] text-amber-200">En búsqueda de la excelencia</p></div>
+          <div className="flex flex-col items-center justify-center"><img src={`${base}10%20a%C3%B1os%20transparentes.png`} alt="Diez años de TRAIN Football" className="hero-emblem-float w-52 object-contain drop-shadow-2xl md:w-64" /><p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.3em] text-amber-200">En búsqueda de la excelencia</p></div>
         </div>
       </section>
 

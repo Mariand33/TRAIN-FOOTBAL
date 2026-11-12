@@ -5,6 +5,13 @@ import { useEffect, useState, type FormEvent, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../supabase";
 
+type ClubTrayectoria = {
+  club: string;
+  cargo: string;
+  periodo: string;
+  escudo_url: string;
+};
+
 type Integrante = {
   id: string;
   nombre: string;
@@ -16,10 +23,19 @@ type Integrante = {
   foto_zoom: number | null;
   foto_x: number | null;
   foto_y: number | null;
+  trayectoria: ClubTrayectoria[] | null;
 };
 
 const BUCKET_FOTOS = "staff-train-football";
 const BUCKET_CV = "cv-equipo";
+const BUCKET_ESCUDOS = "staff-escudos";
+
+const CLUBES_VACIOS: ClubTrayectoria[] = Array.from({ length: 4 }, () => ({
+  club: "",
+  cargo: "",
+  periodo: "",
+  escudo_url: "",
+}));
 
 export default function AdministrarStaff() {
   const router = useRouter();
@@ -38,6 +54,8 @@ export default function AdministrarStaff() {
   const [fotoZoom, setFotoZoom] = useState(1);
   const [fotoX, setFotoX] = useState(50);
   const [fotoY, setFotoY] = useState(50);
+  const [trayectoria, setTrayectoria] = useState<ClubTrayectoria[]>(CLUBES_VACIOS);
+  const [escudos, setEscudos] = useState<(File | null)[]>([null, null, null, null]);
 
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
@@ -62,7 +80,7 @@ export default function AdministrarStaff() {
   async function cargarIntegrantes() {
     const { data, error } = await supabase
       .from("staff_train_football")
-      .select("id, nombre, cargo, descripcion, foto_url, cv_url, orden, foto_zoom, foto_x, foto_y")
+      .select("id, nombre, cargo, descripcion, foto_url, cv_url, orden, foto_zoom, foto_x, foto_y, trayectoria")
       .order("orden", { ascending: true })
       .order("nombre", { ascending: true });
 
@@ -86,6 +104,8 @@ export default function AdministrarStaff() {
     setFotoZoom(1);
     setFotoX(50);
     setFotoY(50);
+    setTrayectoria(CLUBES_VACIOS.map((club) => ({ ...club })));
+    setEscudos([null, null, null, null]);
   }
 
   function editarIntegrante(persona: Integrante) {
@@ -100,6 +120,13 @@ export default function AdministrarStaff() {
     setFotoZoom(persona.foto_zoom ?? 1);
     setFotoX(persona.foto_x ?? 50);
     setFotoY(persona.foto_y ?? 50);
+    setTrayectoria(
+      Array.from({ length: 4 }, (_, i) => ({
+        ...CLUBES_VACIOS[i],
+        ...(persona.trayectoria?.[i] ?? {}),
+      }))
+    );
+    setEscudos([null, null, null, null]);
 
     setMensaje("Editando a " + persona.nombre);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -159,6 +186,26 @@ export default function AdministrarStaff() {
 
     const { data } = supabase.storage
       .from(BUCKET_FOTOS)
+      .getPublicUrl(ruta);
+
+    return data.publicUrl;
+  }
+
+  async function subirEscudo(archivo: File, id: string, indice: number) {
+    const extension = archivo.name.split(".").pop()?.toLowerCase() || "png";
+    const ruta = `integrantes/${id}/escudo-${indice + 1}-${Date.now()}.${extension}`;
+
+    const { error } = await supabase.storage
+      .from(BUCKET_ESCUDOS)
+      .upload(ruta, archivo, {
+        contentType: archivo.type,
+        upsert: false,
+      });
+
+    if (error) throw new Error("Error al subir el escudo: " + error.message);
+
+    const { data } = supabase.storage
+      .from(BUCKET_ESCUDOS)
       .getPublicUrl(ruta);
 
     return data.publicUrl;
@@ -226,16 +273,34 @@ export default function AdministrarStaff() {
         id = data.id;
       }
 
+      if (!id) throw new Error("No se pudo identificar al integrante.");
+
       let nuevaFoto = fotoAnterior;
       let nuevoCV = cvAnterior;
 
-      if (foto && id) {
+      if (foto) {
         nuevaFoto = await subirFoto(foto, id);
       }
 
-      if (cv && id) {
+      if (cv) {
         nuevoCV = await subirCV(cv, id);
       }
+
+      const trayectoriaFinal = await Promise.all(
+        trayectoria.map(async (club, indice) => {
+          const escudoNuevo = escudos[indice];
+          const escudoUrl = escudoNuevo
+            ? await subirEscudo(escudoNuevo, id, indice)
+            : club.escudo_url;
+
+          return {
+            club: club.club.trim(),
+            cargo: club.cargo.trim(),
+            periodo: club.periodo.trim(),
+            escudo_url: escudoUrl,
+          };
+        })
+      );
 
       const { error: errorActualizacion } = await supabase
         .from("staff_train_football")
@@ -249,6 +314,9 @@ export default function AdministrarStaff() {
           foto_zoom: fotoZoom,
           foto_x: fotoX,
           foto_y: fotoY,
+          trayectoria: trayectoriaFinal.filter(
+            (club) => club.club || club.cargo || club.periodo || club.escudo_url
+          ),
         })
         .eq("id", id);
 
@@ -524,6 +592,139 @@ export default function AdministrarStaff() {
               </div>
             )}
           </div>
+
+          <section
+            style={{
+              marginTop: 24,
+              padding: 20,
+              borderRadius: 14,
+              background: "#f1f5f9",
+              border: "1px solid #dbe3ec",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: 8 }}>
+              Trayectoria profesional
+            </h3>
+            <p style={{ color: "#64748b", fontSize: 13, marginTop: 0 }}>
+              Cargá hasta cuatro experiencias. Completá solamente las que correspondan.
+            </p>
+
+            {trayectoria.map((club, indice) => (
+              <div
+                key={indice}
+                style={{
+                  background: "white",
+                  border: "1px solid #e2e8f0",
+                  borderRadius: 10,
+                  padding: 16,
+                  marginTop: 14,
+                }}
+              >
+                <h4 style={{ margin: "0 0 12px" }}>
+                  Experiencia {indice + 1}
+                </h4>
+
+                <label style={{ display: "block", marginBottom: 10 }}>
+                  Club
+                  <input
+                    type="text"
+                    value={club.club}
+                    onChange={(e) =>
+                      setTrayectoria((actual) =>
+                        actual.map((item, i) =>
+                          i === indice ? { ...item, club: e.target.value } : item
+                        )
+                      )
+                    }
+                    placeholder="Nombre del club"
+                    style={campo}
+                  />
+                </label>
+
+                <label style={{ display: "block", marginBottom: 10 }}>
+                  Cargo o función
+                  <input
+                    type="text"
+                    value={club.cargo}
+                    onChange={(e) =>
+                      setTrayectoria((actual) =>
+                        actual.map((item, i) =>
+                          i === indice ? { ...item, cargo: e.target.value } : item
+                        )
+                      )
+                    }
+                    placeholder="Ej.: Preparador físico"
+                    style={campo}
+                  />
+                </label>
+
+                <label style={{ display: "block", marginBottom: 10 }}>
+                  Período
+                  <input
+                    type="text"
+                    value={club.periodo}
+                    onChange={(e) =>
+                      setTrayectoria((actual) =>
+                        actual.map((item, i) =>
+                          i === indice ? { ...item, periodo: e.target.value } : item
+                        )
+                      )
+                    }
+                    placeholder="Ej.: 2024–2025"
+                    style={campo}
+                  />
+                </label>
+
+                <div>
+                  <label>
+                    Escudo del club (JPG, PNG o WEBP)
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={(e) => {
+                        const archivo = e.target.files?.[0] ?? null;
+                        if (!archivo) return;
+                        if (!["image/jpeg", "image/png", "image/webp"].includes(archivo.type)) {
+                          setMensaje("El escudo debe ser JPG, PNG o WEBP.");
+                          e.target.value = "";
+                          return;
+                        }
+                        if (archivo.size > 2 * 1024 * 1024) {
+                          setMensaje("El escudo no puede superar los 2 MB.");
+                          e.target.value = "";
+                          return;
+                        }
+                        setEscudos((actual) =>
+                          actual.map((item, i) => i === indice ? archivo : item)
+                        );
+                        setMensaje("");
+                      }}
+                      style={{ ...campo, border: 0, paddingLeft: 0 }}
+                    />
+                  </label>
+
+                  {escudos[indice] && (
+                    <p style={{ color: "#008c70", fontSize: 13 }}>
+                      Escudo seleccionado: {escudos[indice]?.name}
+                    </p>
+                  )}
+
+                  {!escudos[indice] && club.escudo_url && (
+                    <div style={{ marginTop: 8 }}>
+                      <img
+                        src={club.escudo_url}
+                        alt={`Escudo de ${club.club || "club"}`}
+                        style={{ width: 64, height: 64, objectFit: "contain" }}
+                      />
+                      <p style={{ fontSize: 12, color: "#64748b" }}>
+                        Escudo actualmente guardado
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </section>
 
           <label>
             CV en PDF (privado)
