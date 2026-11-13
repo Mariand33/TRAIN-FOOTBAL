@@ -6,12 +6,12 @@ import { supabase } from "./supabase";
 const base = "/images/train-fotos/";
 
 const cursos = [
-  { nombre: "Modelos de juego en fútbol", url: "https://capacitacionescads.com/cursos/modelos-juego-futbol-sebastian-lopez" },
-  { nombre: "Planificación en fútbol infantil y juvenil", url: "https://capacitacionescads.com/cursos/planificacion-futbol-infantiles-juveniles" },
-  { nombre: "Principios tácticos del fútbol", url: "https://capacitacionescads.com/cursos/principios-tacticos-futbol" },
-  { nombre: "Entrenamiento de fútbol competitivo", url: "https://capacitacionescads.com/cursos/entrenamiento-futbol-competitivo-organizacion" },
-  { nombre: "Preparación física contextualizada al fútbol", url: "https://capacitacionescads.com/cursos/la-preparacion-fisica-contextualizada-al-futbol" },
-  { nombre: "La preparación integral del futbolista", url: "https://capacitacionescads.com/cursos/futbol-entrenamiento-seminario-fisico-tecnica-tactica" },
+  { nombre: "Organización semanal del entrenamiento de fútbol competitivo", imagen: "webinar-organizacion-semanal.jpg", url: "https://capacitacionescads.com/cursos/entrenamiento-futbol-competitivo-organizacion" },
+  { nombre: "Preparación física contextualizada al fútbol", imagen: "webinar-preparacion-fisica.jpg", url: "https://capacitacionescads.com/cursos/la-preparacion-fisica-contextualizada-al-futbol" },
+  { nombre: "Principios tácticos defensivos del fútbol", imagen: "webinar-principios-defensivos.jpg", url: "https://capacitacionescads.com/cursos/principios-tacticos-futbol" },
+  { nombre: "Modelo de planificación en el fútbol infanto-juvenil", imagen: "webinar-planificacion-infantil.jpg", url: "https://capacitacionescads.com/cursos/planificacion-futbol-infantiles-juveniles" },
+  { nombre: "La preparación integral del futbolista", imagen: "webinar-preparacion-integral.jpg", url: "https://capacitacionescads.com/cursos/futbol-entrenamiento-seminario-fisico-tecnica-tactica" },
+  { nombre: "Modelos de juego en el fútbol", imagen: "webinar-modelos-de-juego.jpg", url: "https://capacitacionescads.com/cursos/modelos-juego-futbol-sebastian-lopez" },
 ];
 
 const fundadores = [
@@ -103,6 +103,7 @@ return (
       <a href="#campus">Campus</a>
       <a href="#jornada">Jornada Presencial</a>
       <a href="#cursos">Cursos</a>
+      <a href="/materiales">Materiales</a>
       <a href="/animaciones">Animaciones</a>
       <a href="#novedades">Novedades</a>
       <a href="#contacto">Contacto</a>
@@ -131,6 +132,7 @@ return (
           ["Campus", "#campus"],
           ["Jornada Presencial", "#jornada"],
           ["Cursos", "#cursos"],
+          ["Materiales", "/materiales"],
           ["Animaciones", "/animaciones"],
           ["Novedades", "#novedades"],
           ["Contacto", "#contacto"],
@@ -372,14 +374,67 @@ return (
       </section>
 
 <section id="cursos" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
-        <div className="mb-8 flex justify-center">
-          <img src="/images/logo-cads.jpeg" alt="CADS Capacitaciones" className="h-auto w-36 rounded-xl object-contain md:w-40" />
-        </div>
-        <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Webinars de Formación</h2><p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el webinar y accedé a su página oficial. (Modalidad Asincrónica)</p>
-        <div className="mt-10 divide-y divide-white/10 border-y border-white/10">{cursos.map((curso,i)=><a key={curso.url} href={curso.url} target="_blank" rel="noreferrer" className="group flex items-center justify-between gap-5 py-6 hover:text-violet-300"><div className="flex items-center gap-5"><span className="text-sm text-gray-500">0{i+1}</span><h3 className="text-lg font-semibold md:text-xl">{curso.nombre}</h3></div><span className="text-2xl transition group-hover:translate-x-1">↗</span></a>)}</div>
-      </section>
+  <div className="mb-8 flex justify-center">
+    <img src="/images/logo-cads.jpeg" alt="CADS Capacitaciones" className="h-auto w-36 rounded-xl object-contain md:w-40" />
+  </div>
 
-      <section id="novedades" className="border-y border-white/10 bg-[#10182a] py-20"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Actualidad TRAIN Football</p><h2 className="mt-3 text-4xl font-black md:text-5xl">Novedades</h2><div className="mt-10 grid gap-5 md:grid-cols-3">{novedades.map(item=><article key={item.titulo} className="flex flex-col border border-white/10 bg-[#080d1b] p-6"><p className="text-xs font-bold tracking-[0.2em] text-amber-300">{item.categoria}</p><h3 className="mt-4 text-xl font-bold">{item.titulo}</h3><p className="mt-3 flex-1 leading-7 text-gray-400">{item.texto}</p><a href={item.destino} className="mt-6 font-bold text-violet-300 hover:text-violet-200">Conocer más →</a></article>)}</div></div></section>
+  <div className="mb-12 text-center">
+    <a href="https://capacitacionescads.com/cursos" target="_blank" rel="noreferrer"
+      className="inline-flex rounded-full bg-emerald-500 px-7 py-3 font-black text-white shadow-lg transition hover:-translate-y-1 hover:bg-emerald-400">
+      CONOCÉ TODAS LAS PROPUESTAS DE CADS ↗
+    </a>
+  </div>
+
+  <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Formación continua</p>
+  <h2 className="mt-3 text-4xl font-black md:text-5xl">Webinars de Formación</h2>
+  <p className="mt-5 max-w-2xl leading-7 text-gray-400">Propuestas online de formación profesional. Elegí el webinar y accedé a su página oficial. Modalidad asincrónica.</p>
+
+  <div className="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+    {cursos.map((curso, i) => (
+      <a key={curso.url} href={curso.url} target="_blank" rel="noreferrer"
+        className="group overflow-hidden rounded-2xl border border-white/10 bg-[#10182a] transition duration-300 hover:-translate-y-2 hover:border-emerald-400/60 hover:shadow-xl">
+        <div className="aspect-square overflow-hidden bg-[#080d1b]">
+          <img src={`/images/${curso.imagen}`} alt={curso.nombre}
+            loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        </div>
+        <div className="p-5">
+          <p className="text-xs font-bold tracking-[0.2em] text-emerald-400">WEBINAR · 0{i + 1}</p>
+          <h3 className="mt-3 min-h-16 text-lg font-bold leading-snug text-white">{curso.nombre}</h3>
+          <p className="mt-4 font-bold text-violet-300 group-hover:text-violet-200">Ver propuesta y acceder ↗</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+      <section id="novedades" className="relative overflow-hidden border-y border-violet-400/20 bg-[#080d1b] py-24">
+        <div className="pointer-events-none absolute -left-32 top-10 h-72 w-72 rounded-full bg-violet-600/10 blur-[100px]" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
+        <div className="relative mx-auto max-w-7xl px-6 md:px-12">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.3em] text-cyan-300">Actualidad TRAIN Football</p>
+              <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">Novedades<span className="text-violet-400">.</span></h2>
+              <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.55)]" />
+            </div>
+            <p className="max-w-md text-sm leading-6 text-gray-400">Formación, actualidad y nuevas oportunidades para seguir creciendo en el fútbol.</p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {novedades.map((item, i) => (
+              <article key={item.titulo} className="group relative flex flex-col overflow-hidden rounded-2xl border border-violet-400/20 bg-[#10182a]/90 p-7 transition-all duration-300 hover:-translate-y-2 hover:border-cyan-300/70 hover:shadow-[0_0_30px_rgba(34,211,238,0.13)]">
+                <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-violet-500 via-cyan-300 to-violet-500 opacity-70 transition-opacity group-hover:opacity-100" />
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-300">{item.categoria}</p>
+                  <span className="text-2xl font-black text-white/10 transition-colors group-hover:text-cyan-300/50">0{i + 1}</span>
+                </div>
+                <h3 className="mt-6 text-xl font-black leading-snug text-white transition-colors group-hover:text-cyan-200">{item.titulo}</h3>
+                <p className="mt-4 flex-1 leading-7 text-gray-400">{item.texto}</p>
+                <a href={item.destino} className="mt-8 inline-flex items-center gap-2 font-bold text-violet-300 transition-all hover:gap-3 hover:text-cyan-200">Conocer más <span aria-hidden="true">→</span></a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="bg-[#080d1b] py-16"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Nuestro trabajo</p><h2 className="mt-3 text-3xl font-black md:text-4xl">El fútbol, en el campo</h2><p className="mt-4 max-w-lg text-gray-400">Entrenamientos y experiencias de formación de TRAIN Football.</p><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{entrenamientos.map((foto,i)=><img key={foto} src={`${base}${encodeURIComponent(foto)}`} alt={`Actividad de entrenamiento TRAIN Football ${i+1}`} loading="lazy" className={`w-full object-cover ${i===0?"aspect-[4/5] sm:row-span-2 sm:h-full":"aspect-[4/3]"}`} />)}</div></div></section>
 
@@ -397,6 +452,7 @@ return (
     <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-2">
       {sponsorsDB.filter(sponsor => [4, 12].includes(Number(sponsor.orden))).map(sponsor => (
         <article key={sponsor.id} className="flex flex-col items-center rounded-2xl border border-amber-300/50 bg-[#080d1b] p-5 text-center shadow-lg transition duration-300 hover:-translate-y-1 hover:border-amber-300">
+          <a href={sponsor.url || undefined} target={sponsor.url ? "_blank" : undefined} rel={sponsor.url ? "noopener noreferrer" : undefined} className="flex w-full flex-col items-center">
           <div className="flex h-36 w-full items-center justify-center overflow-hidden rounded-xl bg-white p-2">
             {sponsor.logo_url && (
               <img src={sponsor.logo_url} alt={sponsor.nombre} className="h-full w-full object-contain" />
@@ -406,6 +462,7 @@ return (
           <h3 className="mt-2 text-xl font-black text-white">{sponsor.nombre}</h3>
           <p className="mt-2 text-sm font-semibold text-gray-300">10 años acompañando a TRAIN Football</p>
           <span className="mt-4 rounded-full border border-amber-300/40 px-4 py-1 text-xs font-bold text-amber-200">2016 — 2026</span>
+          </a>
         </article>
       ))}
     </div>
@@ -423,7 +480,9 @@ return (
               {sponsorsDB.filter(sponsor => ![4, 12].includes(Number(sponsor.orden))).map(sponsor => (
                 <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white p-2 transition duration-300 hover:border-amber-300/60 sm:w-52">
                   {sponsor.logo_url && (
-                    <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
+                    <a href={sponsor.url || undefined} target={sponsor.url ? "_blank" : undefined} rel={sponsor.url ? "noopener noreferrer" : undefined} className="flex h-full w-full items-center justify-center">
+                      <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
+                    </a>
                   )}
                 </div>
               ))}

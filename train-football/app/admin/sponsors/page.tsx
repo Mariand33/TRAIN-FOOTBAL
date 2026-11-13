@@ -8,6 +8,7 @@ type Sponsor = {
   id: string;
   nombre: string;
   logo_url: string | null;
+  url: string | null;
   orden: number;
   activo: boolean;
 };
@@ -18,6 +19,7 @@ export default function AdministrarAuspiciantes() {
   const router = useRouter();
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
   const [nombre, setNombre] = useState("");
+  const [url, setUrl] = useState("");
   const [orden, setOrden] = useState("0");
   const [logo, setLogo] = useState<File | null>(null);
   const [preview, setPreview] = useState("");
@@ -54,6 +56,7 @@ export default function AdministrarAuspiciantes() {
 
   function limpiar() {
     setNombre("");
+    setUrl("");
     setOrden("0");
     setLogo(null);
     setPreview("");
@@ -63,6 +66,7 @@ export default function AdministrarAuspiciantes() {
   function editar(s: Sponsor) {
     setEditando(s.id);
     setNombre(s.nombre);
+    setUrl(s.url ?? "");
     setOrden(String(s.orden ?? 0));
     setPreview(s.logo_url ?? "");
     setLogo(null);
@@ -106,6 +110,7 @@ export default function AdministrarAuspiciantes() {
           .from("sponsors_train_football")
           .update({
             nombre: nombre.trim(),
+            url: url.trim() || null,
             orden: Number(orden) || 0,
             logo_url: logoUrl,
           })
@@ -117,6 +122,7 @@ export default function AdministrarAuspiciantes() {
           .from("sponsors_train_football")
           .insert({
             nombre: nombre.trim(),
+            url: url.trim() || null,
             orden: Number(orden) || 0,
             logo_url: logoUrl,
             activo: true,
@@ -171,6 +177,11 @@ export default function AdministrarAuspiciantes() {
           </label>
 
           <label className="text-sm text-gray-300">
+            Enlace del auspiciante (URL)
+            <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://www.ejemplo.com" className="mt-2 w-full rounded-lg border border-white/20 bg-[#080d1b] p-3 text-white" />
+          </label>
+
+          <label className="text-sm text-gray-300">
             Orden de aparición
             <input type="number" value={orden} onChange={e => setOrden(e.target.value)} className="mt-2 w-full rounded-lg border border-white/20 bg-[#080d1b] p-3 text-white" />
           </label>
@@ -212,6 +223,7 @@ export default function AdministrarAuspiciantes() {
               </div>
               <h3 className="mt-3 font-bold">{s.nombre}</h3>
               <p className="text-xs text-gray-400">Orden: {s.orden}</p>
+              {s.url && <a href={s.url} target="_blank" rel="noopener noreferrer" className="mt-1 block truncate text-xs text-amber-300 hover:underline">{s.url}</a>}
               <div className="mt-4 flex gap-2">
                 <button onClick={() => editar(s)} className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-bold">Editar</button>
                 <button onClick={() => eliminar(s)} className="rounded-lg border border-red-400/40 px-4 py-2 text-sm text-red-300">Eliminar</button>
