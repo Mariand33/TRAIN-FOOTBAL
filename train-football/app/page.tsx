@@ -327,6 +327,18 @@ return (
       </div></section>
 
 
+      <section id="organiza-jornada" className="border-b border-amber-300/20 bg-gradient-to-br from-[#151d38] via-[#10182a] to-[#080d1b] px-6 py-20 md:px-12">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="inline-flex rounded-full border border-amber-300/40 bg-amber-300/10 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-300">TRAIN Football · Capacitaciones</p>
+          <h2 className="mt-6 text-3xl font-extrabold leading-tight text-white md:text-5xl">¿Querés organizar una jornada de capacitación en <span className="text-amber-300">tu ciudad?</span></h2>
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-300">Llevamos nuestra propuesta de formación teórica-práctica a tu club, institución o localidad.</p>
+          <p className="mx-auto mt-4 max-w-3xl leading-8 text-gray-300">Diseñamos jornadas de capacitación adaptadas a las necesidades de cada espacio, con profesionales, contenidos específicos y experiencias vinculadas al fútbol.</p>
+          <h3 className="mt-8 text-xl font-bold text-amber-300 md:text-2xl">Organizá tu jornada con TRAIN Football.</h3>
+          <p className="mt-3 text-gray-300">Consultanos y diseñemos juntos una propuesta para tu institución.</p>
+          <a href="https://wa.link/qb0ao7" target="_blank" rel="noreferrer" className="mt-8 inline-flex rounded-full bg-amber-300 px-8 py-4 font-black text-[#080d1b] shadow-lg shadow-amber-300/20 transition hover:scale-105 hover:bg-amber-200">Quiero organizar una jornada ↗</a>
+        </div>
+      </section>
+
       <section id="curso-gratuito" className="border-y border-emerald-400/30 bg-gradient-to-br from-[#102b29] to-[#080d1b] px-6 py-16 md:px-12">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.3fr_0.7fr] md:items-center">
           <div>
