@@ -30,7 +30,7 @@ const BUCKET_FOTOS = "staff-train-football";
 const BUCKET_CV = "cv-equipo";
 const BUCKET_ESCUDOS = "staff-escudos";
 
-const CLUBES_VACIOS: ClubTrayectoria[] = Array.from({ length: 4 }, () => ({
+const CLUBES_VACIOS: ClubTrayectoria[] = Array.from({ length: 6 }, () => ({
   club: "",
   cargo: "",
   periodo: "",
@@ -55,7 +55,7 @@ export default function AdministrarStaff() {
   const [fotoX, setFotoX] = useState(50);
   const [fotoY, setFotoY] = useState(50);
   const [trayectoria, setTrayectoria] = useState<ClubTrayectoria[]>(CLUBES_VACIOS);
-  const [escudos, setEscudos] = useState<(File | null)[]>([null, null, null, null]);
+  const [escudos, setEscudos] = useState<(File | null)[]>([null, null, null, null, null, null]);
 
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
@@ -105,7 +105,7 @@ export default function AdministrarStaff() {
     setFotoX(50);
     setFotoY(50);
     setTrayectoria(CLUBES_VACIOS.map((club) => ({ ...club })));
-    setEscudos([null, null, null, null]);
+    setEscudos([null, null, null, null, null, null]);
   }
 
   function editarIntegrante(persona: Integrante) {
@@ -121,12 +121,12 @@ export default function AdministrarStaff() {
     setFotoX(persona.foto_x ?? 50);
     setFotoY(persona.foto_y ?? 50);
     setTrayectoria(
-      Array.from({ length: 4 }, (_, i) => ({
+      Array.from({ length: 6 }, (_, i) => ({
         ...CLUBES_VACIOS[i],
         ...(persona.trayectoria?.[i] ?? {}),
       }))
     );
-    setEscudos([null, null, null, null]);
+    setEscudos([null, null, null, null, null, null]);
 
     setMensaje("Editando a " + persona.nombre);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -606,7 +606,7 @@ export default function AdministrarStaff() {
               Trayectoria profesional
             </h3>
             <p style={{ color: "#64748b", fontSize: 13, marginTop: 0 }}>
-              Cargá hasta cuatro experiencias. Completá solamente las que correspondan.
+              Cargá hasta seis experiencias. Completá solamente las que correspondan.
             </p>
 
             {trayectoria.map((club, indice) => (

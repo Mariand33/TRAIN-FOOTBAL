@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -52,360 +54,617 @@ export default function StaffPage() {
     cargarStaff();
   }, []);
 
+  useEffect(() => {
+    function cerrarConEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setIntegranteSeleccionado(null);
+    }
+
+    window.addEventListener("keydown", cerrarConEscape);
+    return () => window.removeEventListener("keydown", cerrarConEscape);
+  }, []);
+
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#080d24",
-        color: "white",
-        padding: "65px 20px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <section
-        style={{
-          maxWidth: 1150,
-          margin: "0 auto",
-        }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 55 }}>
-          <p
-            style={{
-              color: "#e8bd59",
-              fontWeight: 800,
-              letterSpacing: 5,
-              fontSize: 13,
-            }}
-          >
-            TRAIN Football · EN BUSCA DE LA EXCELENCIA
+    <main className="staff-page">
+      <style jsx>{`
+        .staff-page {
+          min-height: 100vh;
+          padding: 85px 24px 55px;
+          color: #fff;
+          background:
+            radial-gradient(ellipse at 50% 0%, #172d43 0%, transparent 55%),
+            linear-gradient(180deg, #071321 0%, #080d19 100%);
+          font-family: Arial, sans-serif;
+        }
+
+        .staff-container {
+          max-width: 1250px;
+          margin: auto;
+        }
+
+        .staff-header {
+          text-align: center;
+          margin-bottom: 58px;
+        }
+
+        .eyebrow {
+          color: #a3f45b;
+          font-size: 12px;
+          font-weight: 900;
+          letter-spacing: 5px;
+          text-transform: uppercase;
+        }
+
+        .staff-title {
+          margin: 18px 0;
+          font-size: clamp(36px, 6vw, 64px);
+          line-height: 1.05;
+          font-weight: 950;
+          letter-spacing: -2px;
+        }
+
+        .staff-title span {
+          color: #a3f45b;
+          text-shadow: 0 0 28px #a3f45535;
+        }
+
+        .staff-subtitle {
+          max-width: 660px;
+          margin: auto;
+          color: #aebdce;
+          font-size: 16px;
+          line-height: 1.8;
+        }
+
+        .header-line {
+          width: 75px;
+          height: 4px;
+          margin: 27px auto 0;
+          border-radius: 10px;
+          background: #a3f45b;
+          box-shadow: 0 0 18px #a3f477;
+        }
+
+        .staff-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+          gap: 25px;
+        }
+
+        .staff-card {
+          position: relative;
+          min-width: 0;
+          height: 390px;
+          overflow: hidden;
+          padding: 0;
+          text-align: left;
+          border: 1px solid #263b4b;
+          border-radius: 19px;
+          background: #101e2d;
+          cursor: pointer;
+          isolation: isolate;
+          transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+        }
+
+        .staff-card:hover {
+          transform: translateY(-8px);
+          border-color: #a3f45b;
+          box-shadow: 0 12px 38px #8ef04a20, 0 0 18px #a3f45b20;
+        }
+
+        .staff-photo {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform .6s ease;
+        }
+
+        .staff-card:hover .staff-photo {
+          transform: scale(1.055);
+        }
+
+        .staff-placeholder {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          place-items: center;
+          color: #a3f45b;
+          font-size: 85px;
+          font-weight: 900;
+          background: linear-gradient(145deg, #19354a, #0b1725);
+        }
+
+        .staff-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            180deg,
+            #07132100 35%,
+            #07132170 60%,
+            #071321f5 100%
+          );
+        }
+
+        .staff-info {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          padding: 26px 23px;
+        }
+
+        .staff-label {
+          display: inline-block;
+          margin-bottom: 12px;
+          padding: 6px 10px;
+          color: #a3f45b;
+          border: 1px solid #a3f45b65;
+          border-radius: 4px;
+          background: #a3f45115;
+          font-size: 9px;
+          font-weight: 900;
+          letter-spacing: 2px;
+        }
+
+        .staff-name {
+          margin: 0;
+          color: #fff;
+          font-size: 24px;
+          font-weight: 900;
+          line-height: 1.15;
+          text-shadow: 0 2px 12px #000;
+        }
+
+        .staff-divider {
+          width: 43px;
+          height: 3px;
+          margin: 14px 0;
+          border-radius: 5px;
+          background: #a3f45b;
+          box-shadow: 0 0 12px #a3f45b90;
+        }
+
+        .staff-role {
+          margin: 0;
+          color: #c7f99e;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 1.5;
+        }
+
+        .staff-open {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 17px;
+          color: #d7e4ef;
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 2px;
+          opacity: .8;
+        }
+
+        .staff-arrow {
+          color: #a3f45b;
+          font-size: 22px;
+          transition: transform .2s ease;
+        }
+
+        .staff-card:hover .staff-arrow {
+          transform: translateX(5px);
+        }
+
+        .staff-footer {
+          margin-top: 70px;
+          padding-top: 25px;
+          border-top: 1px solid #26394b;
+          text-align: center;
+          color: #8294a8;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 3px;
+        }
+
+        .modal-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 18px;
+          overflow-y: auto;
+          background: #020812e8;
+          backdrop-filter: blur(12px);
+        }
+
+        .profile-modal {
+          position: relative;
+          width: 100%;
+          max-width: 850px;
+          max-height: 90vh;
+          overflow-y: auto;
+          padding: 38px clamp(20px, 5vw, 45px);
+          border: 1px solid #a3f45b70;
+          border-radius: 22px;
+          background: linear-gradient(145deg, #142638, #081321);
+          box-shadow: 0 25px 90px #000b, 0 0 35px #a3f45b12;
+        }
+
+        .close-button {
+          position: absolute;
+          top: 15px;
+          right: 17px;
+          width: 40px;
+          height: 40px;
+          border: 1px solid #40576a;
+          border-radius: 50%;
+          background: #1b3043;
+          color: white;
+          font-size: 25px;
+          cursor: pointer;
+        }
+
+        .profile-photo {
+          width: 155px;
+          height: 155px;
+          margin: 0 auto 20px;
+          overflow: hidden;
+          border: 4px solid #a3f45b;
+          border-radius: 50%;
+          box-shadow: 0 0 25px #a3f45b30;
+        }
+
+        .profile-photo img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+        }
+
+        .profile-heading {
+          margin-bottom: 32px;
+          text-align: center;
+        }
+
+        .profile-heading h2 {
+          margin: 12px 0;
+          font-size: clamp(26px, 5vw, 38px);
+          font-weight: 900;
+        }
+
+        .profile-role {
+          color: #baf58b;
+          font-weight: 800;
+          font-size: 17px;
+        }
+
+        .profile-section {
+          margin-top: 27px;
+        }
+
+        .profile-section h3 {
+          margin-bottom: 15px;
+          color: #a3f45b;
+          font-size: 19px;
+        }
+
+        .profile-description {
+          color: #d0dce7;
+          line-height: 1.85;
+          white-space: pre-line;
+        }
+
+        .career-item {
+          display: flex;
+          align-items: center;
+          gap: 17px;
+          padding: 17px;
+          border: 1px solid #31495a;
+          border-radius: 13px;
+          background: #ffffff08;
+        }
+
+        .career-crest {
+          width: 58px;
+          height: 58px;
+          flex-shrink: 0;
+          object-fit: contain;
+        }
+
+        .career-placeholder {
+          display: grid;
+          place-items: center;
+          width: 58px;
+          height: 58px;
+          flex-shrink: 0;
+          border-radius: 12px;
+          color: #a3f45b;
+          background: #1e3548;
+          font-size: 22px;
+        }
+
+        .career-club {
+          color: white;
+          font-size: 16px;
+          font-weight: 900;
+        }
+
+        .career-role {
+          margin-top: 5px;
+          color: #c5d2de;
+        }
+
+        .career-period {
+          margin-top: 5px;
+          color: #a3f45b;
+          font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+          .staff-page {
+            padding: 55px 16px 35px;
+          }
+
+          .staff-header {
+            margin-bottom: 38px;
+          }
+
+          .staff-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+          }
+
+          .staff-card {
+            height: 285px;
+            border-radius: 13px;
+          }
+
+          .staff-info {
+            padding: 15px 12px;
+          }
+
+          .staff-name {
+            font-size: 17px;
+          }
+
+          .staff-role {
+            font-size: 12px;
+          }
+
+          .staff-label {
+            font-size: 8px;
+            letter-spacing: 1px;
+          }
+
+          .staff-open {
+            font-size: 8px;
+            letter-spacing: 1px;
+          }
+
+          .profile-modal {
+            padding: 35px 18px 25px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .staff-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .staff-card {
+            height: 360px;
+          }
+        }
+      `}</style>
+
+      <section className="staff-container">
+        <header className="staff-header">
+          <p className="eyebrow">
+            TRAIN Football · En busca de la excelencia
           </p>
 
-          <h1
-            style={{
-              fontSize: "clamp(34px, 6vw, 56px)",
-              fontWeight: 900,
-              margin: "15px 0",
-            }}
-          >
-            STAFF <span style={{ color: "#e8bd59" }}>TRAIN Football</span>
+          <h1 className="staff-title">
+            NUESTRO <span>STAFF</span>
           </h1>
 
-          <p
-            style={{
-              color: "#c4c9dc",
-              fontSize: 17,
-              maxWidth: 650,
-              margin: "0 auto",
-              lineHeight: 1.7,
-            }}
-          >
-            Un equipo de profesionales comprometidos con la formación, el
-            desarrollo y el crecimiento del fútbol.
+          <p className="staff-subtitle">
+            Conocé a los profesionales que forman parte de TRAIN Football.
+            Experiencia, conocimiento y compromiso al servicio del desarrollo
+            del fútbol.
           </p>
-        </div>
 
-        {cargando && <p style={{ textAlign: "center" }}>Cargando staff...</p>}
+          <div className="header-line" />
+        </header>
+
+        {cargando && (
+          <p style={{ textAlign: "center", color: "#a3f45b" }}>
+            Cargando equipo profesional...
+          </p>
+        )}
 
         {error && (
-          <p role="alert" style={{ textAlign: "center" }}>
+          <p role="alert" style={{ textAlign: "center", color: "#ff9999" }}>
             {error}
           </p>
         )}
 
         {!cargando && !error && integrantes.length === 0 && (
-          <p style={{ textAlign: "center" }}>
+          <p style={{ textAlign: "center", color: "#aebdce" }}>
             Próximamente conocerás a nuestro equipo.
           </p>
         )}
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
-            gap: 25,
-          }}
-        >
+        <div className="staff-grid">
           {integrantes.map((persona) => {
             const zoom = persona.foto_zoom ?? 1;
             const posicionX = persona.foto_x ?? 50;
             const posicionY = persona.foto_y ?? 50;
 
             return (
-              <article
+              <button
                 key={persona.id}
+                type="button"
+                className="staff-card"
                 onClick={() => setIntegranteSeleccionado(persona)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setIntegranteSeleccionado(persona);
-                  }
-                }}
-                role="button"
-                tabIndex={0}
                 aria-label={`Ver perfil de ${persona.nombre}`}
-                style={{
-                  background: "linear-gradient(145deg, #171e45, #101633)",
-                  border: "1px solid #343d69",
-                  borderRadius: 20,
-                  padding: 28,
-                  textAlign: "center",
-                  boxShadow: "0 10px 30px #0005",
-                  cursor: "pointer",
-                  transition: "transform 0.2s ease, border-color 0.2s ease",
-                }}
               >
                 {persona.foto_url ? (
-                  <div
+                  <img
+                    className="staff-photo"
+                    src={persona.foto_url}
+                    alt={`Foto de ${persona.nombre}`}
                     style={{
-                      width: 145,
-                      height: 145,
-                      borderRadius: "50%",
-                      border: "4px solid #e8bd59",
-                      overflow: "hidden",
-                      margin: "0 auto 22px",
-                      boxSizing: "border-box",
+                      objectPosition: `${posicionX}% ${posicionY}%`,
+                      transform: `scale(${zoom})`,
                     }}
-                  >
-                    <img
-                      src={persona.foto_url}
-                      alt={`Foto de ${persona.nombre}`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: `${posicionX}% ${posicionY}%`,
-                        transform: `scale(${zoom})`,
-                        transformOrigin: "center center",
-                        display: "block",
-                      }}
-                    />
-                  </div>
+                  />
                 ) : (
-                  <div
-                    style={{
-                      width: 145,
-                      height: 145,
-                      borderRadius: "50%",
-                      border: "4px solid #e8bd59",
-                      background: "#252e58",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      margin: "0 auto 22px",
-                      color: "#e8bd59",
-                      fontSize: 38,
-                      fontWeight: 900,
-                      boxSizing: "border-box",
-                    }}
-                  >
+                  <div className="staff-placeholder">
                     {persona.nombre.charAt(0)}
                   </div>
                 )}
 
-                <h2
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 900,
-                    marginBottom: 12,
-                  }}
-                >
-                  {persona.nombre}
-                </h2>
+                <div className="staff-overlay" />
 
-                <div
-                  style={{
-                    width: 45,
-                    height: 3,
-                    background: "#e8bd59",
-                    margin: "0 auto 15px",
-                  }}
-                />
+                <div className="staff-info">
+                  <span className="staff-label">TRAIN FOOTBALL</span>
+                  <h2 className="staff-name">{persona.nombre}</h2>
+                  <div className="staff-divider" />
+                  <p className="staff-role">{persona.cargo}</p>
 
-                <p
-                  style={{
-                    color: "#e8bd59",
-                    fontSize: 15,
-                    fontWeight: 700,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {persona.cargo}
-                </p>
-              </article>
+                  <div className="staff-open">
+                    <span>VER PERFIL PROFESIONAL</span>
+                    <span className="staff-arrow">→</span>
+                  </div>
+                </div>
+              </button>
             );
           })}
         </div>
 
-        <div
-          style={{
-            textAlign: "center",
-            marginTop: 65,
-            color: "#aeb7d4",
-            fontSize: 13,
-            letterSpacing: 3,
-          }}
-        >
-          TRAIN Football · 10 AÑOS FORMANDO Y CAPACITANDO
-        </div>
+        <footer className="staff-footer">
+          TRAIN FOOTBALL · 10 AÑOS FORMANDO Y CAPACITANDO
+        </footer>
       </section>
 
       {integranteSeleccionado && (
         <div
+          className="modal-backdrop"
           onClick={() => setIntegranteSeleccionado(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 1000,
-            background: "rgba(2, 5, 18, 0.88)",
-            backdropFilter: "blur(8px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 18,
-            overflowY: "auto",
-          }}
         >
           <section
+            className="profile-modal"
             role="dialog"
             aria-modal="true"
             aria-labelledby="perfil-staff-titulo"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: 850,
-              maxHeight: "90vh",
-              overflowY: "auto",
-              background: "linear-gradient(145deg, #171e45, #080d24)",
-              border: "1px solid #b89443",
-              borderRadius: 22,
-              padding: "32px clamp(20px, 5vw, 42px)",
-              boxShadow: "0 25px 80px #000b",
-            }}
           >
             <button
               type="button"
+              className="close-button"
               onClick={() => setIntegranteSeleccionado(null)}
               aria-label="Cerrar perfil"
-              style={{
-                position: "absolute",
-                top: 14,
-                right: 16,
-                width: 38,
-                height: 38,
-                borderRadius: "50%",
-                border: "1px solid #657096",
-                background: "#252e58",
-                color: "white",
-                fontSize: 24,
-                cursor: "pointer",
-              }}
             >
               ×
             </button>
 
-            <div style={{ textAlign: "center", padding: "10px 15px 28px" }}>
+            <div className="profile-heading">
               {integranteSeleccionado.foto_url && (
-                <div
-                  style={{
-                    width: 150,
-                    height: 150,
-                    borderRadius: "50%",
-                    border: "4px solid #e8bd59",
-                    overflow: "hidden",
-                    margin: "0 auto 20px",
-                    boxSizing: "border-box",
-                    flexShrink: 0,
-                  }}
-                >
+                <div className="profile-photo">
                   <img
                     src={integranteSeleccionado.foto_url}
                     alt={integranteSeleccionado.nombre}
                     style={{
-                      display: "block",
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: `${integranteSeleccionado.foto_x ?? 50}% ${integranteSeleccionado.foto_y ?? 50}%`,
-                      transform: `scale(${integranteSeleccionado.foto_zoom ?? 1})`,
+                      objectPosition: `${
+                        integranteSeleccionado.foto_x ?? 50
+                      }% ${integranteSeleccionado.foto_y ?? 50}%`,
+                      transform: `scale(${
+                        integranteSeleccionado.foto_zoom ?? 1
+                      })`,
                     }}
                   />
                 </div>
               )}
 
-              <p style={{ color: "#e8bd59", letterSpacing: 3, fontSize: 12, fontWeight: 800 }}>
-                TRAIN FOOTBALL · STAFF PROFESIONAL
-              </p>
-              <h2 id="perfil-staff-titulo" style={{ fontSize: "clamp(25px, 5vw, 36px)", fontWeight: 900, margin: "12px 0" }}>
+              <p className="eyebrow">TRAIN FOOTBALL · STAFF PROFESIONAL</p>
+
+              <h2 id="perfil-staff-titulo">
                 {integranteSeleccionado.nombre}
               </h2>
-              <p style={{ color: "#e8bd59", fontWeight: 800, fontSize: 17 }}>
+
+              <p className="profile-role">
                 {integranteSeleccionado.cargo}
               </p>
             </div>
 
             {integranteSeleccionado.descripcion && (
-              <div style={{ marginBottom: 30 }}>
-                <h3 style={{ color: "#e8bd59", fontSize: 18, marginBottom: 10 }}>
-                  Perfil profesional
-                </h3>
-                <p style={{ color: "#d5d9e8", lineHeight: 1.8, whiteSpace: "pre-line" }}>
+              <div className="profile-section">
+                <h3>Perfil profesional</h3>
+                <p className="profile-description">
                   {integranteSeleccionado.descripcion}
                 </p>
               </div>
             )}
 
-            <div>
-              <h3 style={{ color: "#e8bd59", fontSize: 20, marginBottom: 18 }}>
-                Trayectoria profesional
-              </h3>
+            <div className="profile-section">
+              <h3>Trayectoria profesional</h3>
 
               {integranteSeleccionado.trayectoria?.filter(
                 (item) => item.club || item.cargo || item.periodo
               ).length ? (
                 <div style={{ display: "grid", gap: 13 }}>
                   {integranteSeleccionado.trayectoria
-                    .filter((item) => item.club || item.cargo || item.periodo)
+                    .filter(
+                      (item) => item.club || item.cargo || item.periodo
+                    )
                     .map((item, indice) => (
                       <div
                         key={`${item.club}-${indice}`}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 16,
-                          padding: 16,
-                          borderRadius: 14,
-                          background: "#ffffff0a",
-                          border: "1px solid #343d69",
-                        }}
+                        className="career-item"
                       >
                         {item.escudo_url ? (
                           <img
+                            className="career-crest"
                             src={item.escudo_url}
                             alt={`Escudo de ${item.club}`}
-                            style={{ width: 58, height: 58, objectFit: "contain", flexShrink: 0 }}
                           />
                         ) : (
-                          <div style={{ width: 58, height: 58, borderRadius: 12, background: "#252e58", flexShrink: 0 }} />
+                          <div className="career-placeholder">⚽</div>
                         )}
+
                         <div>
-                          <p style={{ color: "white", fontWeight: 800, fontSize: 16 }}>
-                            {item.club}
-                          </p>
-                          {item.cargo && <p style={{ color: "#d5d9e8", marginTop: 4 }}>{item.cargo}</p>}
-                          {item.periodo && <p style={{ color: "#e8bd59", fontSize: 13, marginTop: 4 }}>{item.periodo}</p>}
+                          <p className="career-club">{item.club}</p>
+
+                          {item.cargo && (
+                            <p className="career-role">{item.cargo}</p>
+                          )}
+
+                          {item.periodo && (
+                            <p className="career-period">{item.periodo}</p>
+                          )}
                         </div>
                       </div>
                     ))}
                 </div>
               ) : (
-                <p style={{ color: "#aeb7d4", lineHeight: 1.7 }}>
-                  La trayectoria profesional de este integrante se actualizará próximamente.
+                <p className="profile-description">
+                  La trayectoria profesional de este integrante se actualizará
+                  próximamente.
                 </p>
               )}
             </div>
 
-            <p style={{ color: "#aeb7d4", textAlign: "center", fontSize: 11, letterSpacing: 2, marginTop: 30 }}>
+            <p
+              style={{
+                color: "#8294a8",
+                textAlign: "center",
+                fontSize: 10,
+                letterSpacing: 2,
+                marginTop: 35,
+              }}
+            >
               TRAIN FOOTBALL · 10 AÑOS FORMANDO Y CAPACITANDO
             </p>
           </section>
