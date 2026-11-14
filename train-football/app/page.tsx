@@ -495,62 +495,45 @@ return (
         </div>
         <div className="p-5">
           <p className="text-xs font-bold tracking-[0.2em] text-emerald-400">WEBINAR · 0{i + 1}</p>
-          <h3 className="mt-3 min-h-16 text-lg f<section id="novedades" className="relative overflow-hidden border-y border-violet-400/20 bg-[#080d1b] py-20">
-  <div className="pointer-events-none absolute -left-32 top-10 h-72 w-72 rounded-full bg-violet-600/10 blur-[100px]" />
-  <div className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
+          <h3 className="mt-3 min-h-16 text-lg font-bold leading-snug text-white">{curso.nombre}</h3>
+          <p className="mt-4 font-bold text-violet-300 group-hover:text-violet-200">Ver propuesta y acceder ↗</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
 
-  <div className="relative mx-auto max-w-7xl px-6 md:px-12">
+      <section id="novedades" className="relative overflow-hidden border-y border-violet-400/20 bg-[#080d1b] py-20">
+  <div className="mx-auto max-w-7xl px-6 md:px-12">
     <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div>
         <p className="text-sm font-black uppercase tracking-[0.3em] text-cyan-300">Actualidad TRAIN Football</p>
-        <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">
-          Novedades<span className="text-violet-400">.</span>
-        </h2>
-        <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 shadow-[0_0_18px_rgba(34,211,238,0.55)]" />
+        <h2 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">Novedades<span className="text-violet-400">.</span></h2>
+        <div className="mt-4 h-1 w-24 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400" />
       </div>
-      <p className="max-w-md text-sm leading-6 text-gray-400">
-        Formación, actualidad y nuevas oportunidades para seguir creciendo en el fútbol.
-      </p>
+      <p className="max-w-md text-sm leading-6 text-gray-400">Formación, actualidad y nuevas oportunidades para seguir creciendo en el fútbol.</p>
     </div>
 
-    <div className="novedades-viewport relative mt-10 overflow-x-auto">
-      <div className="novedades-track flex w-max gap-5 pb-3">
+    <div className="novedades-viewport mt-10 overflow-x-auto">
+      <div className="novedades-track flex w-max gap-5 pb-4">
         {[0, 1].map((grupo) => (
           <div key={grupo} className="flex shrink-0 gap-5" aria-hidden={grupo === 1}>
             {novedades.map((item, i) => (
-              <a
-                key={`${grupo}-${item.titulo}`}
-                href={item.destino}
+              <a key={`${grupo}-${item.titulo}`} href={item.destino}
                 tabIndex={grupo === 1 ? -1 : 0}
-                className="novedad-card group relative flex h-[340px] w-[290px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-violet-400/30 bg-[#10182a] p-6 shadow-xl transition duration-500 hover:-translate-y-1 hover:border-cyan-300/70 hover:shadow-[0_15px_45px_rgba(34,211,238,0.15)] sm:h-[360px] sm:w-[370px]"
-              >
-                <img
-                  src={item.imagen}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                />
+                className="group relative flex h-[350px] w-[300px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-violet-400/30 bg-[#10182a] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300 sm:w-[370px]">
+                <img src={item.imagen} alt="" aria-hidden="true" loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050914] via-[#080d1b]/75 to-[#080d1b]/25" />
                 <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-cyan-300 to-amber-300" />
-
                 <div className="relative z-10 flex items-center justify-between">
-                  <span className="rounded-full border border-amber-300/40 bg-black/35 px-3 py-2 text-xs font-black tracking-[0.18em] text-amber-300 backdrop-blur-sm">
-                    {item.categoria}
-                  </span>
+                  <span className="rounded-full border border-amber-300/40 bg-black/40 px-3 py-2 text-xs font-black tracking-widest text-amber-300">{item.categoria}</span>
                   <span className="text-3xl font-black text-white/70">0{i + 1}</span>
                 </div>
-
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-black leading-tight text-white transition-colors group-hover:text-cyan-200">
-                    {item.titulo}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-gray-200">
-                    {item.texto}
-                  </p>
-                  <span className="mt-6 inline-flex items-center gap-2 font-bold text-cyan-200 transition-all group-hover:gap-4">
-                    Conocer más <span aria-hidden="true">→</span>
-                  </span>
+                  <h3 className="text-2xl font-black leading-tight text-white group-hover:text-cyan-200">{item.titulo}</h3>
+                  <p className="mt-3 text-sm leading-6 text-gray-200">{item.texto}</p>
+                  <span className="mt-6 inline-flex gap-2 font-bold text-cyan-200">Conocer más →</span>
                 </div>
               </a>
             ))}
@@ -560,28 +543,17 @@ return (
     </div>
 
     <div className="mt-7 flex items-center gap-4">
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-violet-400/70 to-cyan-300/70" />
-      <p className="whitespace-nowrap text-xs font-black tracking-[0.28em] text-gray-300 sm:text-sm">
-        NOVEDADES <span className="text-cyan-300">·</span> TRAIN FOOTBALL
-      </p>
-      <div className="h-px flex-1 bg-gradient-to-r from-cyan-300/70 via-violet-400/70 to-transparent" />
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-violet-400 to-cyan-300" />
+      <p className="whitespace-nowrap text-xs font-black tracking-[0.25em] text-gray-300 sm:text-sm">NOVEDADES <span className="text-cyan-300">·</span> TRAIN FOOTBALL</p>
+      <div className="h-px flex-1 bg-gradient-to-r from-cyan-300 via-violet-400 to-transparent" />
     </div>
   </div>
 
   <style jsx>{`
-    .novedades-track {
-      animation: novedades-scroll 42s linear infinite;
-    }
+    .novedades-track { animation: novedades-scroll 42s linear infinite; }
     .novedades-viewport:hover .novedades-track,
-    .novedades-viewport:active .novedades-track,
-    .novedades-viewport:focus-within .novedades-track {
-      animation-play-state: paused;
-    }
-    .novedades-viewport {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(139, 92, 246, .5) transparent;
-      touch-action: pan-x;
-    }
+    .novedades-viewport:focus-within .novedades-track { animation-play-state: paused; }
+    .novedades-viewport { scrollbar-width: thin; scrollbar-color: rgba(139,92,246,.5) transparent; }
     @keyframes novedades-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -590,14 +562,9 @@ return (
       .novedades-track { animation: none; }
     }
   `}</style>
-</section>ms-center gap-2 font-bold text-violet-300 transition-all hover:gap-3 hover:text-cyan-200">Conocer más <span aria-hidden="true">→</span></a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+</section>
 
-      <section className="bg-[#080d1b] py-16"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Nuestro trabajo</p><h2 className="mt-3 text-3xl font-black md:text-4xl">El fútbol, en el campo</h2><p className="mt-4 max-w-lg text-gray-400">Entrenamientos y experiencias de formación de TRAIN Football.</p><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{entrenamientos.map((foto,i)=><img key={foto} src={`${base}${encodeURIComponent(foto)}`} alt={`Actividad de entrenamiento TRAIN Football ${i+1}`} loading="lazy" className={`w-full object-cover ${i===0?"aspect-[4/5] sm:row-span-2 sm:h-full":"aspect-[4/3]"}`} />)}</div></div></section>
+<section className="bg-[#080d1b] py-16"><div className="mx-auto max-w-7xl px-6 md:px-12"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Nuestro trabajo</p><h2 className="mt-3 text-3xl font-black md:text-4xl">El fútbol, en el campo</h2><p className="mt-4 max-w-lg text-gray-400">Entrenamientos y experiencias de formación de TRAIN Football.</p><div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{entrenamientos.map((foto,i)=><img key={foto} src={`${base}${encodeURIComponent(foto)}`} alt={`Actividad de entrenamiento TRAIN Football ${i+1}`} loading="lazy" className={`w-full object-cover ${i===0?"aspect-[4/5] sm:row-span-2 sm:h-full":"aspect-[4/3]"}`} />)}</div></div></section>
 
       <section id="sponsors" aria-label="Sponsors históricos y auspiciantes de TRAIN Football" className="border-y border-white/10 bg-[#10182a] py-16">
   <div className="mx-auto max-w-7xl px-5 md:px-10">
