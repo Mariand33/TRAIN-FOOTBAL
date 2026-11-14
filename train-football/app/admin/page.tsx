@@ -21,6 +21,13 @@ const modulos = [
     color: "#2563eb",
   },
   {
+    titulo: "Profesionales del Campus",
+    descripcion: "Administrar los profesionales, fotografías y perfiles del Campus.",
+    destino: "/admin/campus-staff",
+    icono: "🎓",
+    color: "#d97706",
+  },
+  {
     titulo: "Animaciones",
     descripcion: "Crear categorías y subir videos, GIF e imágenes.",
     destino: "/admin/animaciones",
