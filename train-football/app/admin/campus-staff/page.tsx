@@ -10,6 +10,9 @@ type Profesional = {
   cargo: string;
   descripcion: string | null;
   foto_url: string | null;
+  foto_x?: number | null;
+  foto_y?: number | null;
+  foto_zoom?: number | null;
   orden: number;
   activo: boolean;
 };
@@ -29,6 +32,9 @@ export default function AdministrarCampusStaff() {
   const [activo, setActivo] = useState(true);
   const [foto, setFoto] = useState<File | null>(null);
   const [fotoActual, setFotoActual] = useState("");
+  const [fotoX, setFotoX] = useState(50);
+  const [fotoY, setFotoY] = useState(50);
+  const [fotoZoom, setFotoZoom] = useState(1);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
   const [mensaje, setMensaje] = useState("");
@@ -73,6 +79,9 @@ export default function AdministrarCampusStaff() {
     setActivo(true);
     setFoto(null);
     setFotoActual("");
+    setFotoX(50);
+    setFotoY(50);
+    setFotoZoom(1);
   }
 
   function editar(persona: Profesional) {
@@ -84,6 +93,9 @@ export default function AdministrarCampusStaff() {
     setActivo(persona.activo);
     setFoto(null);
     setFotoActual(persona.foto_url ?? "");
+    setFotoX(persona.foto_x ?? 50);
+    setFotoY(persona.foto_y ?? 50);
+    setFotoZoom(persona.foto_zoom ?? 1);
     setMensaje("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -130,6 +142,9 @@ export default function AdministrarCampusStaff() {
         cargo: cargo.trim(),
         descripcion: descripcion.trim() || null,
         foto_url: fotoUrl || null,
+        foto_x: fotoX,
+        foto_y: fotoY,
+        foto_zoom: fotoZoom,
         orden: Number(orden) || 0,
         activo,
       };
@@ -230,9 +245,46 @@ export default function AdministrarCampusStaff() {
           </div>
 
           {(fotoActual || foto) && (
-            <div className="flex items-center gap-4">
-              <img src={foto ? URL.createObjectURL(foto) : fotoActual} alt="Vista previa" className="h-24 w-24 rounded-xl object-cover" />
-              <p className="text-sm text-slate-400">Vista previa de la fotografía</p>
+            <div className="space-y-4 rounded-xl border border-white/10 bg-slate-950 p-4">
+              <h3 className="font-semibold text-white">Ajustar encuadre de la fotografía</h3>
+              <div className="flex flex-wrap items-center gap-5">
+                <div className="h-40 w-40 overflow-hidden rounded-xl border border-white/20">
+                  <img
+                    src={foto ? URL.createObjectURL(foto) : fotoActual}
+                    alt="Vista previa"
+                    className="h-full w-full object-cover"
+                    style={{
+                      objectPosition: `${fotoX}% ${fotoY}%`,
+                      transform: `scale(${fotoZoom})`,
+                    }}
+                  />
+                </div>
+                <div className="min-w-56 flex-1 space-y-4">
+                  <label className="block text-sm text-slate-300">
+                    Horizontal: {fotoX}%
+                    <input type="range" min="0" max="100" value={fotoX}
+                      onChange={(e) => setFotoX(Number(e.target.value))}
+                      className="mt-2 w-full" />
+                  </label>
+                  <label className="block text-sm text-slate-300">
+                    Vertical: {fotoY}%
+                    <input type="range" min="0" max="100" value={fotoY}
+                      onChange={(e) => setFotoY(Number(e.target.value))}
+                      className="mt-2 w-full" />
+                  </label>
+                  <label className="block text-sm text-slate-300">
+                    Zoom: {fotoZoom.toFixed(2)}x
+                    <input type="range" min="1" max="2.5" step="0.05" value={fotoZoom}
+                      onChange={(e) => setFotoZoom(Number(e.target.value))}
+                      className="mt-2 w-full" />
+                  </label>
+                  <button type="button"
+                    onClick={() => { setFotoX(50); setFotoY(50); setFotoZoom(1); }}
+                    className="rounded-lg border border-white/20 px-3 py-2 text-sm text-white hover:bg-white/10">
+                    Restablecer encuadre
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -261,7 +313,7 @@ export default function AdministrarCampusStaff() {
             {personas.map((persona) => (
               <article key={persona.id} className="flex gap-4 rounded-2xl border border-white/10 bg-slate-900 p-4">
                 {persona.foto_url ? (
-                  <img src={persona.foto_url} alt={persona.nombre} className="h-24 w-24 rounded-xl object-cover" />
+                  <img src={persona.foto_url} alt={persona.nombre} className="h-24 w-24 rounded-xl object-cover" style={{ objectPosition: `${persona.foto_x ?? 50}% ${persona.foto_y ?? 50}%`, transform: `scale(${persona.foto_zoom ?? 1})` }} />
                 ) : (
                   <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-slate-800 text-3xl">👤</div>
                 )}

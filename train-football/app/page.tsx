@@ -85,7 +85,7 @@ useEffect(() => {
   async function cargarProfesionalesCampus() {
     const { data, error } = await supabase
       .from("campus_staff_train_football")
-      .select("id, nombre, cargo, descripcion, foto_url, orden, activo")
+      .select("id, nombre, cargo, descripcion, foto_url, foto_x, foto_y, foto_zoom, orden, activo")
       .eq("activo", true)
       .order("orden", { ascending: true });
 
@@ -340,7 +340,7 @@ return (
               className="group overflow-hidden rounded-xl border border-white/10 bg-[#10182a] text-left transition hover:-translate-y-1 hover:border-amber-300/70"
             >
               {persona.foto_url ? (
-                <img src={persona.foto_url} alt={persona.nombre} className="h-48 w-full object-cover" />
+                <img src={persona.foto_url} alt={persona.nombre} className="h-48 w-full object-cover" style={{ objectPosition: `${persona.foto_x ?? 50}% ${persona.foto_y ?? 50}%`, transform: `scale(${persona.foto_zoom ?? 1})` }} />
               ) : (
                 <div className="flex h-48 items-center justify-center bg-[#17223a] text-5xl text-amber-300">+</div>
               )}
@@ -377,6 +377,10 @@ return (
                 src={profesionalSeleccionado.foto_url}
                 alt={profesionalSeleccionado.nombre}
                 className="mb-6 h-72 w-full rounded-xl object-cover"
+                style={{
+                  objectPosition: `${profesionalSeleccionado.foto_x ?? 50}% ${profesionalSeleccionado.foto_y ?? 50}%`,
+                  transform: `scale(${profesionalSeleccionado.foto_zoom ?? 1})`,
+                }}
               />
             )}
             <p className="text-sm font-bold uppercase tracking-widest text-violet-300">Profesional del Campus</p>
