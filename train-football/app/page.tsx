@@ -53,7 +53,9 @@ const novedades = [
 export default function Home() {
  const [integrantes, setIntegrantes] = useState<any[]>([]);
  const [sponsorsDB, setSponsorsDB] = useState<any[]>([]);
-  const [menuAbierto, setMenuAbierto] = useState(false);
+ const [campusStaffDB, setCampusStaffDB] = useState<any[]>([]);
+ const [profesionalSeleccionado, setProfesionalSeleccionado] = useState<any>(null);
+ const [menuAbierto, setMenuAbierto] = useState(false);
 
 useEffect(() => {
   async function cargarIntegrantes() {
@@ -79,6 +81,19 @@ useEffect(() => {
   }
 
   cargarSponsors();
+
+  async function cargarProfesionalesCampus() {
+    const { data, error } = await supabase
+      .from("campus_staff_train_football")
+      .select("id, nombre, cargo, descripcion, foto_url, orden, activo")
+      .eq("activo", true)
+      .order("orden", { ascending: true });
+
+    if (!error) setCampusStaffDB(data ?? []);
+    else console.error("Error al cargar profesionales del Campus:", error.message);
+  }
+
+  cargarProfesionalesCampus();
 }, []);
 
 const fundadoresDB = integrantes.filter(p =>
@@ -313,7 +328,66 @@ return (
           <p className="text-base font-bold leading-7 text-white">Club Atlético Banco Provincia<br />Zonal Bahía Blanca</p>
         </div><ul className="mt-7 space-y-3 text-gray-300"><li>— Trabajo técnico-táctico</li><li>— Preparación física contextualizada</li><li>— Prevención y nutrición</li><li>— Análisis de video</li></ul><a href="https://docs.google.com/forms/d/e/1FAIpQLSfkzVC-qGFblfWFWS2CqaOGHDdlGvkTyuaQkDGQ8en5OCq7vQ/viewform?pli=1" target="_blank" rel="noreferrer" className="mt-8 inline-flex rounded-full bg-amber-300 px-7 py-4 font-extrabold text-[#080d1b] hover:bg-amber-200">Inscribirme al campus ↗</a></div>
       </div>
-      <div className="mt-14 border-t border-white/10 pt-10"><p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Equipo a cargo</p><h3 className="mt-3 text-2xl font-black md:text-3xl">Profesionales del Campus</h3><div className="mt-7 grid grid-cols-2 gap-4 md:grid-cols-4">{campusStaff.map(persona=><article key={persona.nombre} className="border-l-2 border-amber-300/70 bg-[#10182a] p-5"><h4 className="font-bold">{persona.nombre}</h4><p className="mt-2 text-sm text-gray-400">{persona.rol}</p></article>)}</div></div>
+      <div className="mt-14 border-t border-white/10 pt-10">
+        <p className="text-sm font-bold uppercase tracking-[0.25em] text-violet-300">Equipo a cargo</p>
+        <h3 className="mt-3 text-2xl font-black md:text-3xl">Profesionales del Campus</h3>
+        <div className="mt-7 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {campusStaffDB.map(persona => (
+            <button
+              type="button"
+              key={persona.id}
+              onClick={() => setProfesionalSeleccionado(persona)}
+              className="group overflow-hidden rounded-xl border border-white/10 bg-[#10182a] text-left transition hover:-translate-y-1 hover:border-amber-300/70"
+            >
+              {persona.foto_url ? (
+                <img src={persona.foto_url} alt={persona.nombre} className="h-48 w-full object-cover" />
+              ) : (
+                <div className="flex h-48 items-center justify-center bg-[#17223a] text-5xl text-amber-300">+</div>
+              )}
+              <div className="border-l-2 border-amber-300/70 p-5">
+                <h4 className="font-bold text-white">{persona.nombre}</h4>
+                <p className="mt-2 text-sm text-gray-400">{persona.cargo}</p>
+                <p className="mt-3 text-xs font-bold text-amber-300">VER PERFIL →</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {profesionalSeleccionado && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-5 backdrop-blur-sm"
+          onClick={() => setProfesionalSeleccionado(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Perfil de ${profesionalSeleccionado.nombre}`}
+            className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-amber-300/30 bg-[#10182a] p-6 shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setProfesionalSeleccionado(null)}
+              className="absolute right-4 top-4 z-10 rounded-full bg-black/60 px-3 py-2 text-white hover:bg-amber-300 hover:text-black"
+              aria-label="Cerrar perfil"
+            >✕</button>
+            {profesionalSeleccionado.foto_url && (
+              <img
+                src={profesionalSeleccionado.foto_url}
+                alt={profesionalSeleccionado.nombre}
+                className="mb-6 h-72 w-full rounded-xl object-cover"
+              />
+            )}
+            <p className="text-sm font-bold uppercase tracking-widest text-violet-300">Profesional del Campus</p>
+            <h3 className="mt-2 text-3xl font-black text-white">{profesionalSeleccionado.nombre}</h3>
+            <p className="mt-2 font-semibold text-amber-300">{profesionalSeleccionado.cargo}</p>
+            <p className="mt-5 whitespace-pre-line leading-7 text-gray-300">
+              {profesionalSeleccionado.descripcion || "Información profesional próximamente."}
+            </p>
+          </div>
+        </div>
+      )}
       </section>
 
       <section id="jornada" className="border-y border-white/10 bg-[#10182a] py-20"><div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-[1fr_0.8fr] md:items-center md:px-12">
