@@ -70,7 +70,7 @@ useEffect(() => {
   async function cargarSponsors() {
     const { data, error } = await supabase
       .from("sponsors_train_football")
-      .select("id, nombre, logo_url, orden")
+      .select("id, nombre, logo_url, orden, url")
       .eq("activo", true)
       .order("orden", { ascending: true });
 
@@ -462,6 +462,7 @@ return (
           <h3 className="mt-2 text-xl font-black text-white">{sponsor.nombre}</h3>
           <p className="mt-2 text-sm font-semibold text-gray-300">10 años acompañando a TRAIN Football</p>
           <span className="mt-4 rounded-full border border-amber-300/40 px-4 py-1 text-xs font-bold text-amber-200">2016 — 2026</span>
+          {sponsor.url && <span className="mt-4 inline-flex rounded-full bg-amber-400 px-5 py-2 text-xs font-black uppercase tracking-wider text-[#080d1b] transition hover:scale-105 hover:bg-white">VISITAR SPONSOR ↗</span>}
           </a>
         </article>
       ))}
@@ -478,12 +479,13 @@ return (
           {[0, 1].map(grupo => (
             <div key={grupo} className="flex shrink-0 items-center gap-4 pr-4" aria-hidden={grupo === 1}>
               {sponsorsDB.filter(sponsor => ![4, 12].includes(Number(sponsor.orden))).map(sponsor => (
-                <div key={`${grupo}-${sponsor.id}`} className="flex h-24 w-44 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white p-2 transition duration-300 hover:border-amber-300/60 sm:w-52">
+                <div key={`${grupo}-${sponsor.id}`} className="flex h-32 w-44 shrink-0 flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border border-white/20 bg-white p-2 transition duration-300 hover:border-amber-300/60 sm:w-52">
                   {sponsor.logo_url && (
-                    <a href={sponsor.url || undefined} target={sponsor.url ? "_blank" : undefined} rel={sponsor.url ? "noopener noreferrer" : undefined} className="flex h-full w-full items-center justify-center">
+                    <a href={sponsor.url || undefined} target={sponsor.url ? "_blank" : undefined} rel={sponsor.url ? "noopener noreferrer" : undefined} className="flex min-h-0 flex-1 w-full items-center justify-center">
                       <img src={sponsor.logo_url} alt={grupo === 0 ? sponsor.nombre : ""} loading="lazy" className="h-full w-full object-contain" />
                     </a>
                   )}
+                  {sponsor.url && <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="rounded-full bg-amber-400 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[#080d1b] transition hover:bg-amber-300">VISITAR ↗</a>}
                 </div>
               ))}
             </div>
