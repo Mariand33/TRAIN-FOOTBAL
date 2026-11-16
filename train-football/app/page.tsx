@@ -545,7 +545,7 @@ return (
       <div className="novedades-track flex w-max gap-5 pb-4">
         {[0, 1].map((grupo) => (
           <div key={grupo} className="flex shrink-0 gap-5" aria-hidden={grupo === 1}>
-            {(novedadesDB.length ? novedadesDB : novedades).map((item: any, i) => (
+            {novedades.map((item, i) => (
               <a key={`${grupo}-${item.titulo}`} href={item.destino}
                 tabIndex={grupo === 1 ? -1 : 0}
                 className="group relative flex h-[350px] w-[300px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-violet-400/30 bg-[#10182a] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300 sm:w-[370px]">
@@ -568,6 +568,53 @@ return (
         ))}
       </div>
     </div>
+
+
+    {novedadesDB.length > 0 && (
+      <div className="mt-16 border-t border-violet-400/20 pt-12">
+        <p className="text-sm font-black uppercase tracking-[0.3em] text-cyan-300">
+          Actualidad y noticias
+        </p>
+        <h3 className="mt-3 text-3xl font-black text-white md:text-4xl">
+          Diario Digital <span className="text-violet-400">TRAIN Football.</span>
+        </h3>
+        <p className="mt-4 max-w-2xl leading-7 text-gray-400">
+          Noticias, experiencias, actividades y contenidos para toda la comunidad del fútbol.
+        </p>
+
+        <div className="mt-8 space-y-8">
+          {novedadesDB.map((item: any) => (
+            <article key={item.id} className="overflow-hidden rounded-2xl border border-white/10 bg-[#10182a]">
+              {item.media_tipo === "video" && item.imagen ? (
+                <video src={item.imagen} controls className="max-h-[520px] w-full bg-black object-contain" />
+              ) : item.imagen ? (
+                <img src={item.imagen} alt={item.titulo} loading="lazy"
+                  className="max-h-[520px] w-full object-cover" />
+              ) : null}
+
+              <div className="p-6 md:p-8">
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-cyan-300">
+                  TRAIN FOOTBALL · ACTUALIDAD
+                </p>
+                <h4 className="mt-3 text-2xl font-black leading-tight text-white md:text-3xl">
+                  {item.titulo}
+                </h4>
+                {item.texto && (
+                  <p className="mt-4 text-lg font-semibold leading-7 text-gray-300">
+                    {item.texto}
+                  </p>
+                )}
+                {item.contenido && (
+                  <div className="mt-5 whitespace-pre-line text-base leading-8 text-gray-300">
+                    {item.contenido}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    )}
 
     <div className="mt-7 flex items-center gap-4">
       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-violet-400 to-cyan-300" />
