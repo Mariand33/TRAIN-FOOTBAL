@@ -72,6 +72,7 @@ export default function Home() {
  const [integrantes, setIntegrantes] = useState<any[]>([]);
  const [sponsorsDB, setSponsorsDB] = useState<any[]>([]);
  const [campusStaffDB, setCampusStaffDB] = useState<any[]>([]);
+ const [novedadesDB, setNovedadesDB] = useState<any[]>([]);
  const [profesionalSeleccionado, setProfesionalSeleccionado] = useState<any>(null);
  const [menuAbierto, setMenuAbierto] = useState(false);
 
@@ -112,6 +113,32 @@ useEffect(() => {
   }
 
   cargarProfesionalesCampus();
+
+  async function cargarNovedades() {
+    const { data, error } = await supabase
+      .from("novedades_train_football")
+      .select("id, titulo, subtitulo, contenido, imagen_url, media_url, media_tipo, publicada, created_at")
+      .eq("publicada", true)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error al cargar novedades:", error.message);
+      return;
+    }
+
+    setNovedadesDB((data ?? []).map((n: any) => ({
+      id: n.id,
+      categoria: "TRAIN FOOTBALL",
+      titulo: n.titulo,
+      texto: n.subtitulo || "",
+      contenido: n.contenido || "",
+      destino: "#novedades",
+      imagen: n.media_url || n.imagen_url || "",
+      media_tipo: n.media_tipo || "imagen",
+    })));
+  }
+
+  cargarNovedades();
 }, []);
 
 const fundadoresDB = integrantes.filter(p =>
@@ -518,7 +545,7 @@ return (
       <div className="novedades-track flex w-max gap-5 pb-4">
         {[0, 1].map((grupo) => (
           <div key={grupo} className="flex shrink-0 gap-5" aria-hidden={grupo === 1}>
-            {novedades.map((item, i) => (
+            {(novedadesDB.length ? novedadesDB : novedades).map((item: any, i) => (
               <a key={`${grupo}-${item.titulo}`} href={item.destino}
                 tabIndex={grupo === 1 ? -1 : 0}
                 className="group relative flex h-[350px] w-[300px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-violet-400/30 bg-[#10182a] p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300 sm:w-[370px]">
