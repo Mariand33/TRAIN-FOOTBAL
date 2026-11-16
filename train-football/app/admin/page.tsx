@@ -41,6 +41,13 @@ const modulos = [
     icono: "📚",
     color: "#059669",
   },
+  {
+    titulo: "Novedades",
+    descripcion: "Publicar noticias, fotografías, videos y artículos de Train Football.",
+    destino: "/admin/novedades",
+    icono: "📰",
+    color: "#EAB308",
+  },
 ];
 
 export default function AdminPage() {
