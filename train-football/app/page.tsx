@@ -589,7 +589,7 @@ return (
                 <video src={item.imagen} controls className="max-h-[520px] w-full bg-black object-contain" />
               ) : item.imagen ? (
                 <img src={item.imagen} alt={item.titulo} loading="lazy"
-                  className="max-h-[520px] w-full object-cover" />
+                  className="mx-auto max-h-[520px] w-full object-contain bg-black" />
               ) : null}
 
               <div className="p-6 md:p-8">
