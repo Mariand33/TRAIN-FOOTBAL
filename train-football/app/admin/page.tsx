@@ -97,6 +97,11 @@ export default function AdminPage() {
   if (checking) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+      <a href="/admin/novedades"
+         style={{display:"inline-flex",alignItems:"center",gap:"10px",padding:"14px 22px",margin:"12px 0",borderRadius:"12px",background:"#9333ea",color:"#ffffff",fontWeight:700,textDecoration:"none"}}>
+        📰 NOVEDADES — Crear y administrar publicaciones
+      </a>
+
         Verificando acceso...
       </main>
     );
