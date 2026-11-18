@@ -38,10 +38,11 @@ const campusStaff = [
 
 
 const entrenamientos = [
-  "AF6A2095.JPG", "IMG-20190610-WA0003.jpg", "IMG-20190610-WA0004.jpg",
-  "IMG-20190610-WA0005.jpg", "IMG-20190610-WA0034.jpg",
-  "IMG-20190722-WA0088.jpg", "IMG-20190722-WA0089.jpg",
-  "IMG-20190722-WA0090.jpg", "IMG-20190722-WA0091.jpg",
+  "IMG-20190610-WA0003.jpg",
+  "IMG-20190610-WA0034.jpg",
+  "IMG-20190722-WA0088.jpg",
+  "IMG-20190722-WA0090.jpg",
+  "IMG-20190722-WA0091.jpg",
 ];
 
 const novedades = [
@@ -164,7 +165,8 @@ return (
       <a href="#jornada">Jornada Presencial</a>
       <a href="#cursos">Cursos</a>
       <a href="/materiales">Materiales</a>
-      <a href="/animaciones">Animaciones</a>
+      <a href="/animaciones">Ejercicios de Animación</a>
+      <a href="/ejercicios-tacticos">Ejercicios Tácticos (Próximamente)</a>
       <a href="#novedades">Novedades</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -193,7 +195,8 @@ return (
           ["Jornada Presencial", "#jornada"],
           ["Cursos", "#cursos"],
           ["Materiales", "/materiales"],
-          ["Animaciones", "/animaciones"],
+          ["Ejercicios de Animación", "/animaciones"],
+           ["Ejercicios Tácticos (Próximamente)", "/ejercicios-tacticos"],
           ["Novedades", "#novedades"],
           ["Contacto", "#contacto"],
           ["WhatsApp", "https://wa.link/qb0ao7"],
@@ -752,3 +755,4 @@ return (
     </main>
   );
 }
+
